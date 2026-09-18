@@ -1,0 +1,7 @@
+{
+  "rows": 12134,
+  "assigned": 5796,
+  "controls": 6338,
+  "excluded_outcome": "cvd_risk_composite exactly equals five pre-lottery diagnosis indicators; retained as a baseline characteristic, not a follow-up endpoint.",
+  "inference": "Household-clustered intervals; adjusted for household-list size categories. Unweighted educational reanalysis, not a full replication of the original trial estimand/design."
+}
