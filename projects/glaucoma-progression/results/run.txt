@@ -1,0 +1,6 @@
+Subjects: 107
+Observations: 786
+Mean structure: quadratic
+Covariance: RIAS_CAR1
+Subject-level baseline median: 82
+Baseline grouping is exploratory and susceptible to regression to the mean; it is not evidence for a biological mechanism.
