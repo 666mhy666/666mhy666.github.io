@@ -1,0 +1,6 @@
+"model","AIC","BIC","n","status"
+"diagnosis",1539.7893300199,1557.39663460922,250,"converged"
+"diagnosis_interaction",1541.25860247057,1562.38736797774,250,"converged"
+"imipramine",1542.8930226552,1567.54324908024,250,"converged"
+"desipramine",1525.3840333456,1550.03425977064,250,"converged"
+"both",1527.3799303927,1555.5516177356,250,"converged"

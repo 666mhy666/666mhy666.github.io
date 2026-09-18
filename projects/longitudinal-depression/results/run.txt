@@ -1,0 +1,6 @@
+Input rows: 250
+Complete rows: 250
+Subjects: 66
+Selected covariance: RIAS
+Fixed effects: depr_score ~ week * desipramine + endogenous
+Associations only. P-values and intervals do not account for model selection.
