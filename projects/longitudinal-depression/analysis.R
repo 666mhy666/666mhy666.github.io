@@ -46,9 +46,9 @@ summaries<-do.call(rbind,lapply(split(d,list(d$week,d$endogenous),drop=TRUE),fun
 }))
 write.csv(summaries,file.path(out,"weekly-means.csv"),row.names=FALSE)
 png(file.path(out,"depression-trajectories.png"),width=1100,height=700,res=150)
-plot(range(d$week),range(c(summaries$mean-summaries$se,summaries$mean+summaries$se)),type="n",xlab="Week",ylab="Mean change in depression score",main="Depression score changes (mean +/- SE)")
+plot(range(d$week),range(c(summaries$mean-summaries$se,summaries$mean+summaries$se)),type="n",xlab="Week",ylab="Mean change in depression score",main="Descriptive mean changes by diagnosis group")
 for(g in levels(d$endogenous)){s<-summaries[summaries$diagnosis==g,];s<-s[order(s$week),];color<-c("#23597a","#ad6b34")[match(g,levels(d$endogenous))];lines(s$week,s$mean,type="b",pch=16,col=color,lwd=2);arrows(s$week,s$mean-s$se,s$week,s$mean+s$se,angle=90,code=3,length=.05,col=color)}
-legend("topright",paste("Diagnosis group",levels(d$endogenous)),col=c("#23597a","#ad6b34"),lty=1,pch=16,bty="n");dev.off()
+legend("topright",c("Non-endogenous","Endogenous"),col=c("#23597a","#ad6b34"),lty=1,pch=16,bty="n");dev.off()
 png(file.path(out,"diagnostics.png"),width=1200,height=900,res=140);par(mfrow=c(2,2))
 r<-resid(fit,type="normalized");plot(fitted(fit),r,xlab="Fitted",ylab="Normalized residual");abline(h=0,lty=2)
 qqnorm(r);qqline(r);plot(d$week,r,xlab="Week",ylab="Normalized residual");abline(h=0,lty=2);hist(r,main="Normalized residuals",xlab="Residual");dev.off()

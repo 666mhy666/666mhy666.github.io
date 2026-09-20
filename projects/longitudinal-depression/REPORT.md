@@ -10,17 +10,19 @@ How are changes in depression scores associated with diagnosis and measured drug
 
 ## Analysis
 
-Used ML for comparisons across fixed effects and a common fixed-effects formula for REML covariance comparisons. Aligned the final fit and report. Implemented unstructured residual covariance with both correlations and visit-specific variances; avoided duplicating compound symmetry with a random intercept.
+I compared longitudinal mean and covariance structures with mixed effects models, then estimated the association between week, diagnosis, and observed plasma desipramine concentration while accounting for repeated measurements.
 
-The entry point is `analysis.R`. Parameters and analysis cohorts are recorded in the code and result files.
+The entry point is `analysis.R`. Parameters, variables, assumptions, and analysis cohorts are recorded in the code and generated result files.
 
 ## Findings
 
 For the selected random intercept and slope model, the week × desipramine coefficient was −0.887 (95% CI −1.551 to −0.224; p = 0.009). This coefficient is on the dataset’s recorded concentration scale; it is not a treatment effect or a dosing recommendation.
 
-![Main result](results/depression-trajectories.png)
+![Descriptive weekly means by diagnosis group; the reported week × desipramine coefficient comes from the mixed effects model.](results/depression-trajectories.png)
 
-## Limits
+_Descriptive weekly means by diagnosis group; the reported week × desipramine coefficient comes from the mixed effects model._
+
+## Assumptions and interpretation
 
 Drug concentrations are observed, time-varying measurements. The model does not establish causation or separate within-person from between-person concentration effects. The sample is small, and reported intervals do not account for model selection.
 
