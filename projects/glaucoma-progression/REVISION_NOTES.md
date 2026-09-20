@@ -1,7 +1,11 @@
 # Revision notes
 
-The starting point was Heyang Ma’s independent UCLA course analysis. The public version was revised with coding-assistant support in September 2026 to improve reproducibility and interpretation. It is academic work, not employment or clinical deployment.
+## Original coursework
 
-Compared mean structures using ML and covariance structures using an identical fixed-effects formula. Used continuous-time correlation for irregular visits. Computed the baseline median once per subject rather than weighting subjects by visit count, and estimated the exploratory interaction from the fitted model.
+The original coursework modeled longitudinal retinal thickness and within-subject correlation.
 
-Published numerical findings refer to the revised scripts and their generated outputs. Original graded reports, instructor prompts, source data, student identifiers, and notebook outputs are not included. The original files are preserved privately.
+## September 2026 portfolio revision
+
+The September 2026 revision compared mean structures using ML and covariance structures with an identical fixed-effects formula, used continuous-time correlation for irregular visits, computed the baseline median once per subject, and estimated the exploratory interaction from the fitted model.
+
+The public revision was prepared with coding-assistant support to improve reproducibility and interpretation. Published numerical findings refer to the revised scripts and generated outputs unless stated otherwise. Original graded reports, instructor prompts, source data, student identifiers, and notebook outputs are not included.

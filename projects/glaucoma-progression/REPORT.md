@@ -10,17 +10,19 @@ How does GCC thickness change during follow-up, and which covariance structure d
 
 ## Analysis
 
-Compared mean structures using ML and covariance structures using an identical fixed-effects formula. Used continuous-time correlation for irregular visits. Computed the baseline median once per subject rather than weighting subjects by visit count, and estimated the exploratory interaction from the fitted model.
+I compared linear and quadratic time trends, then evaluated random effects and residual correlation structures for repeated GCC measurements with a common fixed-effects specification.
 
-The entry point is `analysis.R`. Parameters and analysis cohorts are recorded in the code and result files.
+The entry point is `analysis.R`. Parameters, variables, assumptions, and analysis cohorts are recorded in the code and generated result files.
 
 ## Findings
 
 A quadratic mean trajectory was preferred among the tested mean structures by BIC. With that fixed mean, random intercepts and slopes plus continuous-time AR(1) residuals had the lowest BIC (4078.6). The fitted time terms were −1.634 × time + 0.221 × time².
 
-![Main result](results/gcc-trajectory.png)
+![Observed GCC measurements and the fitted quadratic mean trajectory.](results/gcc-trajectory.png)
 
-## Limits
+_Observed GCC measurements and the fitted quadratic mean trajectory._
+
+## Assumptions and interpretation
 
 Model comparisons are exploratory; intervals omit model-selection uncertainty. Baseline severity groups can show regression to the mean even when the baseline visit is removed from follow-up modeling. The fitted curve should not be extrapolated beyond observed follow-up or interpreted as a treatment effect.
 
