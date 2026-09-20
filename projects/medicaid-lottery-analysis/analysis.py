@@ -8,7 +8,6 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from scipy import stats
 import statsmodels.api as sm
 
 COVARIATES = [
@@ -37,28 +36,11 @@ COVARIATES = [
 # lessHS and race_white_inp are reference categories. num_conditions is excluded
 # because it aggregates diagnosis indicators already in the design matrix.
 OUTCOMES = ["sbp", "dbp", "a1c"]
-
-
-def welch_difference(treated, control):
-    a = np.asarray(treated, dtype=float)
-    b = np.asarray(control, dtype=float)
-    if min(len(a), len(b)) < 2:
-        raise ValueError("At least two observed outcomes per group required")
-    v1 = a.var(ddof=1) / len(a)
-    v0 = b.var(ddof=1) / len(b)
-    se = np.sqrt(v1 + v0)
-    df = (v1 + v0) ** 2 / (v1 * v1 / (len(a) - 1) + v0 * v0 / (len(b) - 1))
-    diff = a.mean() - b.mean()
-    margin = stats.t.ppf(0.975, df) * se
-    return dict(
-        estimate=diff,
-        se=se,
-        lower=diff - margin,
-        upper=diff + margin,
-        p_value=stats.ttest_ind(a, b, equal_var=False).pvalue,
-        n_treated=len(a),
-        n_control=len(b),
-    )
+OUTCOME_LABELS = {
+    "sbp": "Systolic blood pressure",
+    "dbp": "Diastolic blood pressure",
+    "a1c": "HbA1c",
+}
 
 
 def run(data, out):
@@ -179,7 +161,7 @@ def run(data, out):
         )
         ax.axvline(0, color="#999", lw=1)
         ax.set_yticks([0, 1], ["Unadjusted", "Adjusted"])
-        ax.set_title(y)
+        ax.set_title(OUTCOME_LABELS[y])
         ax.set_xlabel("Assignment difference (95% CI)")
         ax.set_ylim(-0.6, 1.6)
     fig.savefig(out / "assignment-effects.png", dpi=170)
