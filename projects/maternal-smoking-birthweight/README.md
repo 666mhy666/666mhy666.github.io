@@ -1,6 +1,6 @@
 # Maternal Smoking and Birth Weight
 
-Compare unadjusted and adjusted birth weight differences, with explicit confounding limits and consistent analysis cohorts.
+Compare how the estimated birth weight difference associated with maternal smoking changes after covariate adjustment.
 
 **Author:** Heyang Ma · Independent UCLA graduate course project, revised for this portfolio.
 **Tools:** Python / statsmodels, Regression adjustment, Robust uncertainty. **Scope:** 4,642 observations.
