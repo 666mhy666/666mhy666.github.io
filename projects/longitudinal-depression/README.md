@@ -1,39 +1,33 @@
 # Depression Trajectories and Drug Concentration
 
-Model changes in depression scores over four weeks and examine how trajectories vary with plasma desipramine concentration.
+I used R to study how changes in depression scores over four weeks related to diagnosis and measured drug concentrations. The historical `riesby` teaching dataset includes **250 observations from 66 patients** across weeks 0–3, with measured plasma imipramine and desipramine. Repeated observations from a patient can be related, so the analysis accounts for that dependence.
 
-**Author:** Heyang Ma · Independent UCLA graduate course project, revised for this portfolio.
-**Tools:** R / nlme, Mixed effects models, Repeated measurements. **Scope:** 66 subjects · 250 observations.
+[Read the case study](https://666mhy666.github.io/projects/longitudinal-depression/) · Independent UCLA graduate coursework
 
-## Question
+## What I compared
 
-How are changes in depression scores associated with diagnosis and measured drug concentration after accounting for repeated observations?
-
-## What I did
-
-I compared longitudinal mean and covariance structures with mixed effects models, then estimated the association between week, diagnosis, and observed plasma desipramine concentration while accounting for repeated measurements.
+I examined patient profiles and weekly means by diagnosis. In the revised analysis, I used maximum likelihood to compare fixed effects for week, diagnosis and the two drugs. Then I held the fixed effects constant and used restricted maximum likelihood to compare patient-level random effects and residual covariance structures. The model allowing each patient a different intercept and slope had the lowest BIC in that second comparison. [Model comparisons and specifications](REPORT.md#analysis)
 
 ## Main finding
 
-For the selected random intercept and slope model, the week × desipramine coefficient was −0.887 (95% CI −1.551 to −0.224; p = 0.009). This coefficient is on the dataset’s recorded concentration scale; it is not a treatment effect or a dosing recommendation.
+The selected model estimated a **week × desipramine coefficient of −0.887** (95% CI −1.551 to −0.224). At two concentrations one unit apart, and holding diagnosis constant, the estimated weekly slope of score change was 0.887 points lower at the higher concentration. The unit is on the dataset’s recorded scale. This is an association with measured concentration. [Coefficient table](results/coefficients.csv)
 
 ![Descriptive weekly means by diagnosis group; the reported week × desipramine coefficient comes from the mixed effects model.](results/depression-trajectories.png)
 
-_Descriptive weekly means by diagnosis group; the reported week × desipramine coefficient comes from the mixed effects model._
+_Observed weekly means by diagnosis group. The bars show ±1 standard error. The plot does not use drug concentrations. The fitted interaction is reported above._
 
 ## Important limitations
 
-Drug concentrations are observed, time-varying measurements. The model does not establish causation or separate within-person from between-person concentration effects. The sample is small, and reported intervals do not account for model selection.
+The model combines differences between patients with changes within a patient. The sample is small, and the interval does not account for model selection. [Residual diagnostics](results/diagnostics.png)
 
-## Code and reproducibility
+## Start here
 
-Use R 4.5.2; the recommended package `nlme` is required.
-Read [data access and input requirements](DATA_ACCESS.md), then run from this repository:
+Start with [analysis.R](analysis.R) for the full analysis and [REPORT.md](REPORT.md) for candidate models, selection and interpretation. The saved run used R 4.5.2 with `nlme`. Follow [DATA_ACCESS.md](DATA_ACCESS.md) to prepare the input. From the repository root, run:
 
 ```sh
-Rscript analysis.R data/riesby.csv results
+Rscript analysis.R data/riesby.csv data/reproduced-results
 ```
 
 
-The executable analysis is [analysis.R](analysis.R). See [REPORT.md](REPORT.md) for model details and interpretation, [DATA_ACCESS.md](DATA_ACCESS.md) for inputs, and [REVISION_NOTES.md](REVISION_NOTES.md) for the distinction between the course project and portfolio revision. The committed `results/` files are generated summaries from the revision.
+This writes an independent copy of the outputs. See [REVISION_NOTES.md](REVISION_NOTES.md) for the coursework and portfolio history.
 

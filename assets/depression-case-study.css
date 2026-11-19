@@ -1,0 +1,73 @@
+.depression-study {
+  max-width: 880px;
+  margin: 0 0 42px;
+}
+
+.depression-evidence {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  margin: 0 0 25px;
+}
+
+.depression-evidence figure {
+  margin: 0;
+}
+
+.depression-evidence img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.depression-result {
+  padding: 16px 18px;
+  background: var(--tint);
+  border-left: 3px solid var(--blue);
+}
+
+.depression-study .depression-finding {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.depression-statistics {
+  margin: 0 0 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.depression-statistics div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 10px;
+  justify-content: space-between;
+}
+
+.depression-statistics dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.depression-result p:last-child {
+  margin-bottom: 0;
+}
+
+.depression-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+}
+
+@media (max-width: 720px) {
+  .depression-evidence,
+  .depression-links {
+    grid-template-columns: 1fr;
+  }
+}
