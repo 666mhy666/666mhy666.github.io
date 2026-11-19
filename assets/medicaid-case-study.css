@@ -1,0 +1,82 @@
+.medicaid-study {
+  max-width: 880px;
+  margin: 0 0 42px;
+}
+
+.medicaid-decision {
+  background: var(--tint);
+  border-left: 3px solid var(--blue);
+  padding: 16px 20px;
+}
+
+.medicaid-decision p {
+  margin-bottom: 0;
+}
+
+.medicaid-study .medicaid-finding {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.medicaid-estimates {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.medicaid-estimates caption {
+  text-align: left;
+  padding-bottom: 4px;
+  color: var(--muted);
+}
+
+.medicaid-estimates thead {
+  background: var(--tint);
+}
+
+.medicaid-estimates th,
+.medicaid-estimates td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  vertical-align: top;
+}
+
+.medicaid-estimates th:first-child {
+  text-align: left;
+}
+
+.medicaid-interval {
+  display: block;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.medicaid-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.medicaid-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+}
+
+@media (max-width: 720px) {
+  .medicaid-estimates th,
+  .medicaid-estimates td {
+    padding: 6px;
+  }
+
+  .medicaid-links {
+    grid-template-columns: 1fr;
+  }
+}

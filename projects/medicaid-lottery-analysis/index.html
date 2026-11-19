@@ -1,1 +1,52 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medicaid Lottery and Health Measures | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a><section class="detail-intro"><p class="eyebrow">Python / statsmodels · Randomized assignment · Clustered inference</p><h1>Medicaid Lottery and Health Measures</h1><p class="lede">Estimate differences in blood pressure and HbA1c by lottery assignment, with household clustering and a check of outcome definitions.</p><p class="meta">12,134 individuals · Independent UCLA academic project</p><div class="intro-links"><a href="https://github.com/666mhy666/medicaid-lottery-analysis">View code on GitHub →</a></div></section><div class="detail-layout"><article class="prose"><h2>Question</h2><p>In the supplied Oregon Health Insurance Experiment teaching extract, how do measured health outcomes differ by lottery assignment?</p><h2>What I did</h2><p>I estimated unadjusted and covariate-adjusted assignment differences with household-clustered uncertainty, checked baseline balance and missingness, and verified the definition of a composite variable before choosing the outcomes.</p><h2>Main finding</h2><p>Adjusted assignment differences were 0.145 for systolic blood pressure (95% CI −0.373 to 0.663), 0.216 for diastolic pressure (−0.184 to 0.616), and −0.0027 for HbA1c (−0.0203 to 0.0149), on the supplied dataset scales. All intervals include zero; this is not evidence that insurance has no health effects.</p><figure><img src="results/assignment-effects.png" alt="Lottery-assignment differences with 95% household-clustered confidence intervals." style="width:100%;height:auto"><figcaption class="small">Lottery-assignment differences with 95% household-clustered confidence intervals.</figcaption></figure><h2>Important limitations</h2><p>The estimand is lottery assignment, not insurance receipt. This unweighted teaching-data reanalysis is not a full replication of the original study’s sampling design, weights, missingness treatment, or estimand. The source extract’s transformation and sampling documentation are incomplete.</p><p class="small">For the portfolio, I checked the supplied variable definitions and reran the assignment analysis with household-clustered intervals. <a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/REVISION_NOTES.md">Revision details on GitHub →</a></p></article><aside class="aside"><h2>Explore on GitHub</h2><p><a href="https://github.com/666mhy666/medicaid-lottery-analysis"><strong>View code on GitHub →</strong></a></p><ul><li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/README.md">README</a></li><li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/REPORT.md">Methods and results</a></li><li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/DATA_ACCESS.md">Data access</a></li><li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/REVISION_NOTES.md">Revision notes</a></li></ul><p><a href="https://www.nber.org/research/data/oregon-health-insurance-experiment-data">Source context</a></p></aside></div></main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September 2026</span></footer></div></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medicaid Lottery and Health Measures | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="stylesheet" href="../../assets/medicaid-case-study.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a>
+<section class="detail-intro">
+  <p class="eyebrow">Health policy · Randomized assignment · Python</p>
+  <h1>Medicaid Lottery and Health Measures</h1>
+  <p class="lede">In this teaching analysis, I found no clear difference in blood pressure or HbA1c between people selected and unselected in Oregon’s Medicaid lottery.</p>
+  <p class="meta">12,134 records · Independent UCLA academic project</p>
+  <div class="intro-links">
+    <a href="#outcome-check">See the data check</a>
+    <a href="#findings">See the estimates</a>
+    <a href="https://github.com/666mhy666/medicaid-lottery-analysis">View the repository</a>
+  </div>
+</section>
+
+<article class="prose medicaid-study">
+  <h2>Why the lottery matters</h2>
+  <p>In 2008, Oregon used a lottery to give people on a waiting list the chance to apply for Medicaid. Selection opened the application process, and enrollment still depended on applying and qualifying. A random draw helps make groups comparable before enrollment, something ordinary comparisons of insured and uninsured people cannot assume. <a href="https://economics.mit.edu/research/publications/oregon-experiment-effects-medicaid-clinical-outcomes">Original study</a></p>
+  <p>I compared the groups as assigned by the lottery, regardless of whether anyone ultimately enrolled. The teaching extract has 5,796 selected and 6,338 unselected records.</p>
+
+  <h2>What I checked before modeling</h2>
+  <p>I reviewed outcome distributions, compared baseline characteristics across assignment groups and checked missing values by outcome. Both blood pressure measures were available for all 12,134 records. HbA1c, a measure of longer-term blood sugar, was missing for 78 records.</p>
+  <section class="medicaid-decision" id="outcome-check" aria-labelledby="outcome-check-heading">
+    <h3 id="outcome-check-heading">The data check that changed the analysis</h3>
+    <p>In all 12,134 records, <code>cvd_risk_composite</code> equaled the sum of five yes-or-no indicators for diagnoses recorded before the lottery: diabetes, high blood pressure, high cholesterol, heart attack and congestive heart failure. The count describes baseline health. I excluded it from the follow-up analysis and kept the three measured health outcomes.</p>
+  </section>
+
+  <h2 id="findings">What I found</h2>
+  <p class="medicaid-finding">All three adjusted estimates were close to zero, and every 95% confidence interval included zero.</p>
+  <table class="medicaid-estimates"><caption>Adjusted lottery-assignment differences</caption><thead><tr><th scope="col">Outcome</th><th scope="col">Estimate (95% CI)</th><th scope="col">Model n</th></tr></thead><tbody><tr><th scope="row">Systolic blood pressure</th><td>+0.145<span class="medicaid-interval">−0.373 to 0.663</span></td><td>12,134</td></tr><tr><th scope="row">Diastolic blood pressure</th><td>+0.216<span class="medicaid-interval">−0.184 to 0.616</span></td><td>12,134</td></tr><tr><th scope="row">HbA1c</th><td>−0.0027<span class="medicaid-interval">−0.0203 to 0.0149</span></td><td>12,056</td></tr></tbody></table>
+  <p class="small">Differences are selected minus unselected, on the extract’s recorded scales. The sample size is the number of records used by each adjusted model.</p>
+  <figure class="medicaid-figure">
+    <a href="results/assignment-effects.png"><img src="results/assignment-effects.png" alt="Unadjusted and adjusted estimates with 95% confidence intervals for systolic blood pressure, diastolic blood pressure and HbA1c. All intervals cross zero."></a>
+    <figcaption class="small">The three panels use separate horizontal scales. The vertical line marks zero. Select the figure to see it full size.</figcaption>
+  </figure>
+
+  <h2>How I estimated the differences</h2>
+  <p>I compared simple group means and regressions that adjusted for baseline characteristics, including the number of household members on the lottery list as categories. Both sets of confidence intervals account for the possibility that outcomes within a household are related.</p>
+
+  <h2>How to read the result</h2>
+  <p>The intervals allow for differences in either direction. The estimate describes the opportunity to apply for Medicaid. Similar HbA1c missingness rates across groups leave open the possibility that missing values are related to health. This unweighted teaching analysis covers three outcomes using an extract with limited sampling and transformation documentation. The published experiment used survey weights and also estimated effects of coverage.</p>
+
+  <h2>Code and supporting results</h2>
+  <ul class="medicaid-links">
+    <li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/analysis.py">Python analysis</a></li>
+    <li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/results/balance.csv">Baseline balance</a></li>
+    <li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/results/missingness.csv">Outcome availability</a></li>
+    <li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/results/estimates.csv">Adjusted and unadjusted estimates</a></li>
+    <li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/REPORT.md">Methods and interpretation</a></li>
+    <li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/DATA_ACCESS.md">Data access and reproduction</a></li>
+    <li><a href="https://github.com/666mhy666/medicaid-lottery-analysis/blob/main/REVISION_NOTES.md">Revision history</a></li>
+  </ul>
+</article>
+</main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September 2026</span></footer></div></body></html>
