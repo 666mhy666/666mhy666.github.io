@@ -1,1 +1,95 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ICU Length of Stay Prediction | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a><section class="detail-intro"><p class="eyebrow">SQL / BigQuery · Python · Patient-level evaluation</p><h1>ICU Length of Stay Prediction</h1><p class="lede">Build a clinical cohort and evaluate whether ICU stays last at least two days, with patients kept separate across training and testing.</p><p class="meta">94,444 ICU stays · Independent UCLA academic project</p><div class="intro-links"><a href="https://github.com/666mhy666/mimic-iv-icu-los">View code on GitHub →</a></div></section><div class="detail-layout"><article class="prose"><h2>Question</h2><p>How well do demographics, laboratory measurements, and recorded vital signs classify ICU stays lasting at least two days?</p><h2>What I did</h2><p>I built the cohort in BigQuery and evaluated logistic regression and random forest on a patient-grouped holdout. The features include demographics, laboratory measurements joined at the patient level, and the earliest recorded vital sign within each ICU stay.</p><h2>Main finding</h2><p>In a revised patient-grouped holdout, random forest ROC-AUC was 0.612 and logistic regression ROC-AUC was 0.581. The test set contained 47,151 stays from 32,678 patients. These are new fixed-parameter benchmarks, not the original tuned-model results.</p><figure><img src="results/grouped-holdout-roc.png" alt="ROC curves from the revised patient-grouped retrospective holdout." style="width:100%;height:auto"><figcaption class="small">ROC curves from the revised patient-grouped retrospective holdout.</figcaption></figure><h2>Important limitations</h2><p>This is retrospective classification, not admission-time prediction. Vital signs are the earliest recorded anywhere in the ICU stay, while laboratory measurements have no bounded lookback and are joined by patient rather than admission. No external or temporal validation was performed.</p><h2>Course project and portfolio analysis</h2><p>The original course project included the BigQuery cohort, tuned logistic regression, random forest, and XGBoost models, and a Dash interface. The benchmarks above come from the September 2026 logistic regression and random forest rerun with patients kept separate across training and testing. <a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/REVISION_NOTES.md">Revision details on GitHub →</a></p></article><aside class="aside"><h2>Explore on GitHub</h2><p><a href="https://github.com/666mhy666/mimic-iv-icu-los"><strong>View code on GitHub →</strong></a></p><ul><li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/README.md">README</a></li><li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/REPORT.md">Methods and results</a></li><li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/DATA_ACCESS.md">Data access</a></li><li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/REVISION_NOTES.md">Revision notes</a></li></ul><p><a href="https://physionet.org/content/mimiciv/">Source context</a></p></aside></div></main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September 2026</span></footer></div></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Classifying ICU Length of Stay with MIMIC-IV | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="stylesheet" href="../../assets/mimic-case-study.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a>
+<section class="detail-intro">
+  <p class="eyebrow">Clinical data · BigQuery · R and Python</p>
+  <h1>Classifying ICU Length of Stay with MIMIC-IV</h1>
+  <p class="lede">Using 94,444 MIMIC-IV ICU stays, I classified whether a stay lasted at least two days. I built the workflow in R and Python, compared logistic regression, random forest, boosting and stacking, and built interactive apps in Shiny and Dash. I later reran the Python evaluation with each patient's stays kept together.</p>
+  <div class="facts">
+    <div><strong>94,444 ICU stays</strong>Python cohort</div>
+    <div><strong>At least two days</strong>Length of stay outcome</div>
+    <div><strong>R and Python</strong>Two implementations</div>
+  </div>
+  <div class="intro-links">
+    <a href="#coursework">Original work</a>
+    <a href="#applications">Apps</a>
+    <a href="#revision">Patient-separated evaluation</a>
+    <a href="https://github.com/666mhy666/mimic-iv-icu-los">View code on GitHub</a>
+  </div>
+</section>
+<section class="case-workflow" aria-labelledby="workflow-heading">
+  <h2 id="workflow-heading">Project at a glance</h2>
+  <ol>
+    <li><strong>MIMIC-IV records</strong><span>Demographics, labs and vitals</span></li>
+    <li><strong>Cohort and features</strong><span>Define the outcome and prepare inputs</span></li>
+    <li><strong>Models across versions</strong><span>Logistic regression, random forest, boosting and stacking</span></li>
+    <li><strong>Explore with apps</strong><span>R Shiny and Python Dash</span></li>
+    <li><strong>Evaluate</strong><span>Original split, then patient-separated revision</span></li>
+  </ol>
+</section>
+<div class="detail-layout">
+  <article class="prose">
+    <h2>Question</h2>
+    <p>Could demographics, lab measurements and recorded vital signs distinguish ICU stays lasting at least two days from shorter stays? I studied this as a retrospective classification problem using completed ICU stays.</p>
+
+    <h2>Dataset and cohort</h2>
+    <p><a href="https://physionet.org/content/mimiciv/3.1/">MIMIC-IV</a> is a credentialed database of deidentified hospital and intensive care records. An ICU stay is one episode of intensive care. A patient can have more than one stay, so a cohort of stays can include fewer distinct patients.</p>
+    <p>In Python, I used BigQuery to extract MIMIC-IV 3.1 tables and joined stays to admissions and patient demographics. I kept adults using the dataset's anchor age, then added lab measurements and vital signs. Labs were the latest values stored before ICU entry for each patient and lab item. Vitals were the first values stored within a stay for each vital sign. The result was 94,444 stays labeled by whether the stay lasted at least two days.</p>
+
+    <h2>From records to a model</h2>
+    <ol>
+      <li><strong>Build the cohort.</strong> Join the clinical tables, apply cohort criteria and create one record per ICU stay.</li>
+      <li><strong>Prepare features.</strong> In the original Python pipelines, I filled missing numeric values with training means and missing categories with the most common category. I represented categories as indicator columns so models could use them.</li>
+      <li><strong>Fit and evaluate.</strong> I used the training data to tune models, then checked how the selected models performed on held-out stays.</li>
+    </ol>
+
+    <h2 id="coursework">Original work in R and Python</h2>
+    <p>I worked on the same ICU length of stay question in R and Python. In both versions, I prepared the data and preprocessed the inputs, fit logistic regression, random forest and boosting models, and evaluated their performance.</p>
+    <p>The R version also included stacking and Shiny. Stacking trains a second model to combine the predictions of several base models. The Python version used BigQuery to construct the cohort and included XGBoost and Dash. The public repository preserves the Python implementation.</p>
+
+    <h2 id="applications">Interactive applications</h2>
+    <p><strong>R Shiny.</strong> I built a Shiny application as part of the R implementation.</p>
+    <p><strong>Python Dash.</strong> I built an interface that let users choose logistic regression, random forest or XGBoost and switch between two workflows:</p>
+    <ul>
+      <li><strong>Prediction.</strong> Enter feature values or load a CSV to see the models' predicted classes and probabilities.</li>
+      <li><strong>Evaluation.</strong> Load a labeled Parquet file to see accuracy, ROC curves, classification reports and confusion matrices for the selected models.</li>
+    </ul>
+    <p>The <a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/app/dash_course_app.py">archived Dash source</a> shows both workflows. Running it with the coursework models requires local model artifacts.</p>
+    <figure class="case-app-preview">
+      <a href="app/dash-synthetic-preview.png"><img src="app/dash-synthetic-detail.png" alt="Close-up of the original Dash prediction screen showing the model selector, fictional inputs and prediction output."></a>
+      <figcaption class="small">The original Dash interface in prediction mode. The values are fictional, including the probability, which comes from a placeholder model. Select the image to see it full size.</figcaption>
+    </figure>
+    <p>For these implementations, I found the Python code more concise and model fitting faster in my setup.</p>
+
+    <h2>Original Python evaluation</h2>
+    <p>I tuned the models with cross-validation inside the training set and evaluated them on 47,222 held-out stays. The split was by stay and preserved the proportion of long stays. ROC-AUC measures how well a model ranks longer stays above shorter ones. A score of 0.5 is chance-level ranking.</p>
+    <div class="case-table-scroll"><table class="case-metrics"><caption>Tuned models · original split by ICU stay</caption><thead><tr><th scope="col">Model</th><th scope="col">ROC-AUC</th><th scope="col">Accuracy</th></tr></thead><tbody><tr><th scope="row">Logistic regression</th><td>0.570</td><td>0.553</td></tr><tr><th scope="row">Random forest</th><td>0.624</td><td>0.587</td></tr><tr><th scope="row">XGBoost</th><td>0.629</td><td>0.590</td></tr></tbody></table></div>
+    <p>XGBoost had the highest test ROC-AUC in the saved coursework run. The original notebook also includes tuning plots and code for per-class performance summaries.</p>
+
+    <h2 id="revision">September 2026 portfolio revision</h2>
+    <p class="small">Expanded to four models in November 2026.</p>
+    <p>The original split placed 10,058 patients in both sets. I kept each patient's stays together in the revision, with zero patient overlap. For the four-model run, I excluded marital status because the archived cohort grouped it using frequencies from the full dataset. I fitted the remaining preprocessing on training data only.</p>
+    <p>To train the stack, I divided the training patients into five groups. For each group, I trained the three base models on the other four groups and used them to score the group they had never seen. A logistic regression combined those predictions. I then refitted the base models on all training patients and evaluated all four models on the same held-out cohort from the September revision.</p>
+    <div class="case-table-scroll"><table class="case-metrics"><caption>Four models · one patient-separated test set</caption><thead><tr><th scope="col">Model</th><th scope="col">ROC-AUC</th><th scope="col">Accuracy</th><th scope="col">Precision</th><th scope="col">Recall</th><th scope="col">F1</th></tr></thead><tbody><tr><th scope="row">Logistic regression</th><td>0.579</td><td>0.558</td><td>0.559</td><td>0.472</td><td>0.512</td></tr><tr><th scope="row">Random forest</th><td>0.613</td><td>0.580</td><td>0.579</td><td>0.534</td><td>0.556</td></tr><tr><th scope="row">XGBoost</th><td>0.621</td><td>0.586</td><td>0.587</td><td>0.531</td><td>0.558</td></tr><tr><th scope="row">Stacking</th><td>0.623</td><td>0.586</td><td>0.585</td><td>0.542</td><td>0.563</td></tr></tbody></table></div>
+    <p>Stacking had the highest ROC-AUC (0.623) on this test set.</p>
+    <p>The revised test set contains 47,151 stays from 32,678 patients. The two tables use different fits and test sets, so the difference between their scores cannot isolate the effect of patient overlap.</p>
+    <figure>
+      <img src="results/grouped-holdout-roc.png" alt="ROC curves for logistic regression, random forest, XGBoost and stacking on the shared patient-separated test set." style="width:100%;height:auto">
+      <figcaption class="small">ROC curves for the four models on the same patient-separated test set. The dashed diagonal shows chance-level ranking.</figcaption>
+    </figure>
+
+    <h2>What the results can support</h2>
+    <p>These are retrospective results. The first recorded vital sign can occur at any point in the stay. The lab query has no fixed lookback and can pull a value recorded for a prior admission. An admission-time application would need a defined cutoff and a new evaluation. This project used no external or time-based validation.</p>
+  </article>
+  <aside class="aside">
+    <h2>Explore the project</h2>
+    <ul>
+      <li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/cohort-extraction.ipynb">BigQuery cohort notebook</a></li>
+      <li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/notebooks/course-modeling.ipynb">Original Python modeling notebook</a></li>
+      <li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/train.py">Revised evaluation script</a></li>
+      <li><a href="https://github.com/666mhy666/mimic-iv-icu-los/tree/main/results">Saved metrics and figures</a></li>
+      <li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/REPORT.md">Technical report</a></li>
+      <li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/DATA_ACCESS.md">Data access and setup</a></li>
+      <li><a href="https://github.com/666mhy666/mimic-iv-icu-los/blob/main/REVISION_NOTES.md">Revision history</a></li>
+    </ul>
+  </aside>
+</div>
+</main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised November 2026</span></footer></div></body></html>
