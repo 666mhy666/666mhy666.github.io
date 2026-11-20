@@ -1,1 +1,88 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Comparing PCA, Autoencoders, and VAEs | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a><section class="detail-intro"><p class="eyebrow">Python / PyTorch · Representation learning · Held-out reconstruction</p><h1>Comparing PCA, Autoencoders, and VAEs</h1><p class="lede">Compare linear and nonlinear image representations using the same splits, latent dimension, and reconstruction metric.</p><p class="meta">10,000 grayscale images · Independent UCLA academic project</p><div class="intro-links"><a href="https://github.com/666mhy666/image-representation-learning">View code on GitHub →</a></div></section><div class="detail-layout"><article class="prose"><h2>Question</h2><p>How do PCA, a dense autoencoder, and a variational autoencoder compare at the same latent dimension?</p><h2>What I did</h2><p>I created a shared 80/10/10 image split, matched the latent dimension across methods, selected neural-network checkpoints on validation reconstruction error, and evaluated every model with held-out pixel MSE.</p><h2>Main finding</h2><p>The revised experiment uses 8,000 training, 1,000 validation, and 1,000 test images, with 64 latent dimensions and ten training epochs. Held-out pixel MSE was 0.00750 for PCA, 0.01677 for the autoencoder, and 0.03600 for the VAE. PCA performed best under this training budget and metric. No images or fitted weights are distributed.</p><figure><img src="results/reconstruction-comparison.png" alt="Held-out pixel MSE for three 64-dimensional representations; lower is better." style="width:100%;height:auto"><figcaption class="small">Held-out pixel MSE for three 64-dimensional representations; lower is better.</figcaption></figure><h2>Important limitations</h2><p>The original notebook showed training-image reconstructions at unequal latent dimensions. The revised experiment is a separate controlled comparison, not confirmation of those original results. Random image splits do not ensure identity separation in CelebA. Pixel MSE does not measure perceptual quality or privacy. The VAE is evaluated at its posterior mean.</p><h2>Course project and portfolio experiment</h2><p>The original course notebook compared training reconstructions at unequal latent dimensions. The portfolio experiment is a separate controlled rerun with matched dimensions and a held-out test set. <a href="https://github.com/666mhy666/image-representation-learning/blob/main/REVISION_NOTES.md">Revision details on GitHub →</a></p></article><aside class="aside"><h2>Explore on GitHub</h2><p><a href="https://github.com/666mhy666/image-representation-learning"><strong>View code on GitHub →</strong></a></p><ul><li><a href="https://github.com/666mhy666/image-representation-learning/blob/main/README.md">README</a></li><li><a href="https://github.com/666mhy666/image-representation-learning/blob/main/REPORT.md">Methods and results</a></li><li><a href="https://github.com/666mhy666/image-representation-learning/blob/main/DATA_ACCESS.md">Data access</a></li><li><a href="https://github.com/666mhy666/image-representation-learning/blob/main/REVISION_NOTES.md">Revision notes</a></li></ul><p><a href="https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html">Source context</a></p></aside></div></main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September 2026</span></footer></div></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Comparing PCA, Autoencoders, and VAEs | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="stylesheet" href="../../assets/image-representation-case-study.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a>
+<section class="detail-intro">
+  <p class="eyebrow">Representation learning · PyTorch · PCA</p>
+  <h1>Comparing PCA, Autoencoders, and VAEs</h1>
+  <p class="lede">I used three models to compress grayscale images, then explored what the learned codes could reconstruct or generate. In a separate test with the same 64-dimensional code size, PCA had the lowest held-out pixel error.</p>
+  <p class="meta">10,000 grayscale images · 64 × 64 pixels · Independent UCLA academic project</p>
+  <div class="intro-links">
+    <a href="#coursework">Original experiments</a>
+    <a href="#benchmark">Held-out comparison</a>
+    <a href="https://github.com/666mhy666/image-representation-learning">View the repository</a>
+  </div>
+</section>
+
+<article class="prose representation-study">
+  <h2>Three ways to compress an image</h2>
+  <p>Each image starts as 4,096 pixel values. The diagrams use the 64-dimensional codes from the later benchmark.</p>
+  <div class="representation-methods">
+    <section>
+      <h3>PCA</h3>
+      <p>Learn orthogonal directions of variation and represent each image in a linear subspace.</p>
+      <ol aria-label="PCA reconstruction steps"><li>Image vector</li><li>64 linear coordinates</li><li>Inverse projection to pixels</li></ol>
+    </section>
+    <section>
+      <h3>Dense autoencoder</h3>
+      <p>Learn a nonlinear encoder and decoder together to reconstruct the input.</p>
+      <ol aria-label="Autoencoder reconstruction steps"><li>Encoder</li><li>64-value code</li><li>Decoder to pixels</li></ol>
+    </section>
+    <section>
+      <h3>Variational autoencoder</h3>
+      <p>Learn a distribution for each input and regularize it toward a standard normal prior.</p>
+      <ol aria-label="Variational autoencoder reconstruction steps"><li>Encoder</li><li>64-dimensional distribution<br><small>Draw a sample or use the mean</small></li><li>Decoder to pixels</li></ol>
+    </section>
+  </div>
+
+  <h2 id="coursework">What I explored in the original coursework</h2>
+  <div class="representation-course">
+    <div>
+      <p>I used the first 10,000 images in the sorted course copy of CelebA. PCA needed <strong>218 components</strong> to reach 95% of the variance in those images. The dense autoencoder used 128 dimensions and the VAE used 64. I trained both neural models for ten epochs, logged their training losses and compared reconstructions on training examples.</p>
+      <p>The variance calculation asks how many linear directions describe the original sample. The later benchmark fixes the dimensions and compares pixel error on held-out images.</p>
+    </div>
+    <figure>
+      <a href="results/pca-variance.png"><img src="results/pca-variance.png" alt="Cumulative explained variance on the original sample crosses 95 percent at 218 PCA components."></a>
+      <figcaption class="small">Aggregate variance curve recomputed on the original sample using the notebook’s preprocessing. The first crossing is 95.01% at 218 components.</figcaption>
+    </figure>
+  </div>
+  <div class="representation-experiments">
+    <section><h3>Generate from a latent draw</h3><p>I drew ten 64-dimensional vectors from a standard normal distribution and decoded them with the original VAE. This exercised its generative path without first encoding an input image.</p></section>
+    <section><h3>Perturb a code and decode again</h3><p>For both neural models, I decoded the clean code and a copy with added Gaussian noise. The VAE started from a posterior sample in this exercise. Comparing the outputs explored sensitivity to changes in the code. The examples were qualitative.</p></section>
+  </div>
+
+  <h2 id="benchmark">A controlled test on held-out images</h2>
+  <p>In the September 2026 revision, I used the same preprocessing, random image split, 64 dimensions and test pixel mean squared error (MSE) for all three methods. Seed 42 fixed the split. The VAE decoder used the posterior mean for validation and test, so the score did not depend on a fresh latent draw.</p>
+  <dl class="representation-split">
+    <div><dt>Train</dt><dd>8,000</dd></div>
+    <div><dt>Validation</dt><dd>1,000</dd></div>
+    <div><dt>Test</dt><dd>1,000</dd></div>
+  </dl>
+  <div class="representation-results">
+    <figure>
+      <a href="results/reconstruction-comparison.png"><img src="results/reconstruction-comparison.png" alt="Held-out pixel MSE is lowest for PCA, followed by the autoencoder and VAE. The bar chart starts at zero."></a>
+      <figcaption class="small">Same 1,000 test images for all three methods. Lower pixel MSE means a closer pixel-by-pixel reconstruction.</figcaption>
+    </figure>
+    <section>
+      <table class="representation-mse"><caption>Held-out pixel error</caption><thead><tr><th scope="col">Model</th><th scope="col">MSE ↓</th></tr></thead><tbody><tr><th scope="row">PCA</th><td>0.00750</td></tr><tr><th scope="row">Dense autoencoder</th><td>0.01677</td></tr><tr><th scope="row">Variational autoencoder</th><td>0.03600</td></tr></tbody></table>
+      <p>PCA was the strongest pixel-reconstruction baseline here. The neural models depend on their architectures and optimization. The VAE also uses a KL penalty to shape its latent distribution, which supports sampling and gives it a different training objective.</p>
+    </section>
+  </div>
+
+  <div class="representation-validation">
+    <div>
+      <h3>How I selected the neural checkpoints</h3>
+      <p>I trained each network for 10 epochs and selected its checkpoint by validation pixel MSE. The lowest validation MSE was recorded at epoch 10 for both models. That is the best observed checkpoint within this training budget.</p>
+    </div>
+    <figure>
+      <a href="results/validation-history.png"><img src="results/validation-history.png" alt="Pixel MSE on the validation images over 10 epochs, with the selected autoencoder and VAE checkpoints marked."></a>
+      <figcaption class="small">Validation pixel MSE from the saved benchmark histories. Dots mark each selected checkpoint.</figcaption>
+    </figure>
+  </div>
+
+  <h2>How far the comparison goes</h2>
+  <p>PCA fits by decomposition, while AE and VAE train iteratively with different parameter counts and objectives. Pixel MSE measures fidelity to the same input pixels. Perceptual realism and generative usefulness are separate questions.</p>
+  <p>The random split separates images, so photos of the same person may appear across splits. The test results describe held-out images, with identity-level generalization untested.</p>
+  <p>This case study uses aggregate results and method diagrams. Photos, individual reconstructions, generated faces and trained weights remain private because permission to redistribute them has not been established. <a href="https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html">CelebA dataset terms</a>.</p>
+
+  <h2>Code and reproduction</h2>
+  <p>Start with <a href="https://github.com/666mhy666/image-representation-learning/blob/main/analysis.py">analysis.py</a> and an authorized local image directory. <a href="https://github.com/666mhy666/image-representation-learning/blob/main/README.md">Reproduction steps</a> · <a href="https://github.com/666mhy666/image-representation-learning/blob/main/REPORT.md">Methods and original experiments</a> · <a href="https://github.com/666mhy666/image-representation-learning/tree/main/results">Saved benchmark outputs</a> · <a href="https://github.com/666mhy666/image-representation-learning/blob/main/REVISION_NOTES.md">Revision history</a></p>
+</article>
+</main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September–November 2026</span></footer></div></body></html>

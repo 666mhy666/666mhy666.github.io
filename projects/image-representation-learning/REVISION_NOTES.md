@@ -2,10 +2,12 @@
 
 ## Original coursework
 
-The original coursework compared image reconstructions at unequal latent dimensions on training examples.
+The notebook analyzed PCA variance, compared training-image reconstructions at unequal dimensions (PCA 218, AE 128, VAE 64), generated VAE samples and compared clean and noise-perturbed codes. The original work and face examples remain in the private archive.
 
-## September 2026 portfolio revision
+## September 2026 benchmark
 
-The September 2026 revision added a reproducible 80/10/10 split, matched latent dimensions, validation-based checkpoint selection, and a common held-out pixel MSE. Synthetic smoke-test artifacts are separated from formal outputs and are never reported as image-dataset performance.
+The revised analysis uses an 80/10/10 random image split with seed 42, matched 64-dimensional representations and ten epochs for both neural models. Checkpoints are selected by validation pixel MSE. The VAE is decoded at the posterior mean for validation and test. All reported test metrics are mean squared pixel errors on the held-out images. The smoke test uses generated noise and a separate output directory.
 
-The public revision was prepared with coding-assistant support to improve reproducibility and interpretation. Published numerical findings refer to the revised scripts and generated outputs unless stated otherwise. Original graded reports, instructor prompts, source data, student identifiers, and notebook outputs are not included.
+## November 2026 presentation revision
+
+The case study now separates the original qualitative exercises from the held-out benchmark. The coursework PCA variance curve was recomputed from the matching authorized inputs using the original preprocessing. The validation figure is generated from the saved September histories. No benchmark model was refit, and its numerical files and original comparison chart were preserved. Coding-assistant support was used for documentation, aggregate plots and validation checks.

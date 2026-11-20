@@ -1,0 +1,67 @@
+.representation-study { max-width: 940px; margin: 0 0 42px; }
+
+.representation-methods, .representation-split {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 24px;
+}
+
+.representation-methods section {
+  background: var(--tint);
+  border-top: 3px solid var(--blue);
+  padding: 12px 14px;
+}
+
+.representation-methods h3, .representation-experiments h3 { margin: 0 0 6px; }
+.representation-methods p { font-size: 15px; }
+.representation-methods ol { padding: 0; display: grid; gap: 4px; margin: 0; list-style: none; }
+.representation-methods li { background: white; border: 1px solid var(--line); padding: 4px 8px; font-size: 13px; }
+.representation-methods li + li::before { content: "↓"; margin-right: 7px; color: var(--blue); }
+.representation-methods small { color: var(--muted); margin-left: 16px; }
+
+.representation-course, .representation-results, .representation-validation, .representation-experiments {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.representation-study figure { margin: 0; }
+.representation-study figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  margin-bottom: 6px;
+}
+
+.representation-experiments section { border-top: 1px solid var(--line); padding-top: 10px; }
+.representation-experiments p { margin-bottom: 0; }
+.representation-split div { background: var(--tint); padding: 8px 12px; }
+.representation-split dt { font-size: 13px; color: var(--muted); }
+.representation-split dd { font-size: 19px; font-weight: 650; margin: 0; font-variant-numeric: tabular-nums; }
+
+.representation-results { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+.representation-mse {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.representation-mse caption { text-align: left; font-weight: 650; padding-bottom: 5px; }
+.representation-mse thead { background: var(--tint); }
+.representation-mse :is(th, td) { text-align: left; padding: 6px 9px; border-bottom: 1px solid var(--line); }
+.representation-mse :is(th, td):last-child { text-align: right; }
+.representation-validation { padding-top: 12px; border-top: 1px solid var(--line); }
+.representation-validation h3 { margin-top: 0; }
+
+@media (max-width: 720px) {
+  .representation-methods, .representation-course, .representation-results,
+  .representation-validation, .representation-experiments { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .representation-split { gap: 6px; }
+  .representation-split div { padding-inline: 8px; }
+}

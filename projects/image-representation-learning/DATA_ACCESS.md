@@ -1,11 +1,5 @@
 # Data access
 
-Use your authorized CelebA image directory. The local benchmark uses the first 10,000 filenames in sorted order from the supplied archive, resized to 64 × 64 grayscale and scaled to [0, 1]. Obtain images from the original provider under its terms; images and model weights are not included.
+The benchmark uses the first 10,000 filenames in sorted order from an authorized local copy of the CelebA course images. It accepts JPEG or PNG, converts the images to grayscale, resizes to 64 × 64 and scales pixel values to [0, 1]. Exact reproduction depends on the same source copy and preprocessing. The separate coursework PCA variance script uses the original resize-before-grayscale preprocessing order.
 
-## Input contract
-
-A directory of JPEG or PNG images. The run records split sizes, seed, latent dimension, and epochs.
-
-Source context: [https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html](https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
-
-Keep inputs in a local `data/` directory. Input data and model files are excluded from the public release. Course access is not assumed to confer redistribution permission.
+Review the provider’s terms before obtaining or using the images. Course access does not establish permission to redistribute individual images or derivative examples. Keep the inputs in a local data directory. The portfolio includes aggregate figures and summaries. Source photos, reconstructions, generated faces and trained model weights remain private. [CelebA dataset and terms](https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
