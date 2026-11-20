@@ -1,1 +1,57 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spectral Clustering for Nonlinear Structure | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a><section class="detail-intro"><p class="eyebrow">Python / SciPy · Graph Laplacians · Clustering diagnostics</p><h1>Spectral Clustering for Nonlinear Structure</h1><p class="lede">Compare Euclidean k-means with graph-based clustering on two moons and concentric rings.</p><p class="meta">Two synthetic benchmark datasets · Independent UCLA academic project</p><div class="intro-links"><a href="https://github.com/666mhy666/spectral-clustering">View code on GitHub →</a></div></section><div class="detail-layout"><article class="prose"><h2>Question</h2><p>When does a graph representation recover nonlinear cluster geometry that k-means misses?</p><h2>What I did</h2><p>I implemented normalized graph-Laplacian clustering, compared it with k-means, and reported adjusted Rand index, graph connectivity, and isolated-node diagnostics across a neighbor grid.</p><h2>Main finding</h2><p>At 10 neighbors, normalized spectral clustering achieved ARI 1.0 on both supplied datasets, compared with 0.253 and 0.004 for k-means. The neighbor grid is reported in full, including disconnected-graph diagnostics. These are descriptive benchmark scores, not held-out performance.</p><figure><img src="results/clustering-comparison.png" alt="K-means and normalized spectral-clustering assignments on the two supplied datasets." style="width:100%;height:auto"><figcaption class="small">K-means and normalized spectral-clustering assignments on the two supplied datasets.</figcaption></figure><h2>Important limitations</h2><p>The number of clusters is known for these teaching examples. ARI uses the provided reference labels for evaluation. Affinity choices matter, and perfect recovery of these examples is not evidence of broad generalization. Dense eigendecomposition is not designed for large datasets.</p><p class="small">For the portfolio, I separated neighbor count, embedding dimension, and cluster count and reported connectivity across the full grid. <a href="https://github.com/666mhy666/spectral-clustering/blob/main/REVISION_NOTES.md">Revision details on GitHub →</a></p></article><aside class="aside"><h2>Explore on GitHub</h2><p><a href="https://github.com/666mhy666/spectral-clustering"><strong>View code on GitHub →</strong></a></p><ul><li><a href="https://github.com/666mhy666/spectral-clustering/blob/main/README.md">README</a></li><li><a href="https://github.com/666mhy666/spectral-clustering/blob/main/REPORT.md">Methods and results</a></li><li><a href="https://github.com/666mhy666/spectral-clustering/blob/main/DATA_ACCESS.md">Data access</a></li><li><a href="https://github.com/666mhy666/spectral-clustering/blob/main/REVISION_NOTES.md">Revision notes</a></li></ul></aside></div></main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September 2026</span></footer></div></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spectral Clustering for Nonlinear Structure | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="stylesheet" href="../../assets/spectral-case-study.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a>
+<section class="detail-intro">
+  <p class="eyebrow">Unsupervised learning · Graphs · Python</p>
+  <h1>Spectral Clustering for Nonlinear Structure</h1>
+  <p class="lede">Ordinary k-means cut across the moons and rings. Connecting nearby points first made both shapes recoverable. On the ring data, the graph itself told me why one neighbor setting performed worse.</p>
+  <p class="meta">Two synthetic teaching datasets · Independent UCLA academic project</p>
+  <div class="intro-links">
+    <a href="#connectivity">See the connectivity check</a>
+    <a href="https://github.com/666mhy666/spectral-clustering/blob/main/analysis.py">Open the Python analysis</a>
+    <a href="https://github.com/666mhy666/spectral-clustering">View the repository</a>
+  </div>
+</section>
+
+<article class="prose spectral-study">
+  <h2>Same points, different representation</h2>
+  <p>Each row shows the same points in their original coordinates. K-means groups by distance to a centroid, which suits compact groups. On these shapes it divides the plane through the clusters. Spectral clustering first represents the points by their graph connections, then applies k-means in that new space.</p>
+  <div class="spectral-gallery">
+    <figure>
+      <h3>Halfmoon</h3>
+      <div class="spectral-panel-labels"><span>Reference</span><span>K-means</span><span>Spectral · 10 neighbors</span></div>
+      <a href="results/halfmoon-assignments.png"><img src="results/halfmoon-assignments.png" alt="Two interleaved moons. The middle k-means panel cuts across the arcs, while spectral clustering recovers the two reference shapes."></a>
+      <figcaption>ARI 0.253 for k-means and 1.0 for spectral clustering.</figcaption>
+    </figure>
+    <figure>
+      <h3>Bullseye</h3>
+      <div class="spectral-panel-labels"><span>Reference</span><span>K-means</span><span>Spectral · 10 neighbors</span></div>
+      <a href="results/bullseye-assignments.png"><img src="results/bullseye-assignments.png" alt="Three concentric rings. The middle k-means panel groups points in wedges, while spectral clustering recovers the three rings."></a>
+      <figcaption>ARI 0.004 for k-means and 1.0 for spectral clustering.</figcaption>
+    </figure>
+  </div>
+  <p class="small"><strong>Adjusted Rand Index (ARI)</strong> measures agreement with the supplied reference labels. A score of 1 means perfect agreement. Values near 0 mean little agreement beyond chance. I used the reference labels after fitting to score the assignments and align colors across each row.</p>
+
+  <h2>How the graph changes the problem</h2>
+  <ol class="spectral-steps">
+    <li><strong>Connect nearby points.</strong> Treat each point as a node. A nearest-neighbor graph links points that are close even when the whole cluster bends or wraps around another one.</li>
+    <li><strong>Represent the connections.</strong> Normalize the affinity matrix and use its leading eigenvectors to give each point a new set of coordinates, its spectral embedding.</li>
+    <li><strong>Cluster in that space.</strong> Run k-means on the embedding, with two groups for Halfmoon and three for Bullseye. The new coordinates help separate groups that are hard to divide with centroids in the original plane.</li>
+  </ol>
+
+  <h2 id="connectivity">A sparse graph split the rings</h2>
+  <div class="spectral-connectivity">
+    <div>
+      <p>At five neighbors, the Bullseye graph had five connected components for three reference rings. Parts of the rings became separate pieces. The saved ARI fell to 0.923. A change in numerical settings could change that score, while the five-component split held across reruns.</p>
+      <p>At 10, 15 and 20 neighbors, there were three components, and the clusters matched the reference rings. Halfmoon scored 1.0 at all four settings. A separate Gaussian RBF affinity, which weights pairs by distance, also scored 1.0 on both examples.</p>
+    </div>
+    <table class="spectral-neighbors"><caption>Bullseye neighbor settings</caption><thead><tr><th scope="col">Neighbors</th><th scope="col">Components</th><th scope="col">Saved ARI</th></tr></thead><tbody><tr><th scope="row">5</th><td>5</td><td>0.923</td></tr><tr><th scope="row">10</th><td>3</td><td>1.0</td></tr><tr><th scope="row">15</th><td>3</td><td>1.0</td></tr><tr><th scope="row">20</th><td>3</td><td>1.0</td></tr></tbody></table>
+  </div>
+  <p class="small"><a href="https://github.com/666mhy666/spectral-clustering/blob/main/results/clustering-comparison.csv">Complete results</a> · <a href="results/clustering-comparison.png">Original comparison including RBF</a></p>
+
+  <h2>What this benchmark shows</h2>
+  <p>The examples use synthetic points and known group counts. The results describe recovery on these two datasets. On other data, affinity and neighborhood choices can change the answer, and the dense eigendecomposition limits scale.</p>
+  <p class="small">The coursework compared k-means, nearest-neighbor graphs and Gaussian affinities. The portfolio revision separated neighbor count, embedding dimension and cluster count, and added graph connectivity checks. <a href="https://github.com/666mhy666/spectral-clustering/blob/main/REVISION_NOTES.md">Revision history</a></p>
+
+  <h2>Code and supporting results</h2>
+  <p><a href="https://github.com/666mhy666/spectral-clustering/blob/main/analysis.py">Python analysis</a> · <a href="https://github.com/666mhy666/spectral-clustering/blob/main/test_analysis.py">Graph tests</a> · <a href="https://github.com/666mhy666/spectral-clustering/blob/main/REPORT.md">Methods and reproduction notes</a> · <a href="https://github.com/666mhy666/spectral-clustering/blob/main/DATA_ACCESS.md">Input requirements</a></p>
+</article>
+</main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September–November 2026</span></footer></div></body></html>

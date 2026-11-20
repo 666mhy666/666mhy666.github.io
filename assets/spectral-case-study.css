@@ -1,0 +1,43 @@
+.spectral-study { max-width: 930px; margin: 0 0 42px; }
+
+.spectral-gallery { border-top: 1px solid var(--line); margin: 18px 0 8px; }
+.spectral-gallery figure { margin: 0; padding: 15px 12px; border-bottom: 1px solid var(--line); }
+.spectral-gallery figure h3 { margin: 0 0 8px; }
+
+.spectral-panel-labels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.spectral-gallery img { width: 100%; height: auto; display: block; }
+.spectral-gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 5px; }
+
+.spectral-steps { display: grid; gap: 8px; padding-left: 25px; }
+.spectral-connectivity {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.spectral-neighbors {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.spectral-neighbors caption { text-align: left; font-weight: 650; padding-bottom: 6px; }
+.spectral-neighbors thead { background: var(--tint); }
+.spectral-neighbors :is(th, td) { text-align: right; padding: 7px; border-bottom: 1px solid var(--line); }
+.spectral-neighbors th:first-child { text-align: left; }
+
+@media (max-width: 720px) {
+  .spectral-connectivity { grid-template-columns: minmax(0, 1fr); gap: 6px; margin-bottom: 10px; }
+  .spectral-panel-labels { font-size: 12px; }
+  .spectral-gallery figure { padding-inline: 0; }
+}

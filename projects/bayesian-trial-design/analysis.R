@@ -48,12 +48,27 @@ write.csv(validation,file.path(out,"simulation-check.csv"),row.names=FALSE)
 stopifnot(all(abs(validation$analytic-validation$simulation)<5*validation$mc_se+.0001))
 stopifnot(is.na(find_n(.0001,maximum=2)))
 stopifnot(all(diff(success_probability(1:100,5))>=-1e-12))
-png(file.path(out,"success-probability.png"),width=1200,height=700,res=150)
-plot(1:30,success_probability(1:30,5),type="l",lwd=2,col="#23597a",ylim=c(0,1),
- xlab="Sample size per arm",ylab="Probability of meeting posterior success rule",
- main="Normal-normal trial planning: known SD = 4.5")
-for(i in 2:4) lines(1:30,success_probability(1:30,delta[i]),col=i+1,lwd=2)
-abline(h=target,lty=2,col="grey50");legend("bottomright",paste("True difference",delta),col=c("#23597a",3:5),lwd=2,bty="n")
+png(file.path(out,"success-probability.png"),width=1280,height=720,res=150)
+par(mar=c(4.2,5.1,2.3,1.5), family="sans")
+sample_sizes <- 1:30
+colors <- c("#23597a", "#a2451f", "#1b7669", "#714d87")
+styles <- c(1, 2, 3, 4)
+symbols <- c(16, 17, 15, 18)
+plot(sample_sizes, rep(0,length(sample_sizes)), type="n", axes=FALSE,
+     xlim=c(1,30), ylim=c(0,1.02), xlab="Sample size per arm",
+     ylab="Design success probability", main="Posterior evidence threshold 0.95")
+axis(1, at=c(1,5,10,15,20,25,30))
+axis(2, at=seq(0,1,.25), labels=paste0(seq(0,100,25),"%"), las=1)
+abline(h=target,lty=2,col="#687b8a")
+text(29.5,target-.048,"95% design target",adj=1,col="#435c70",cex=.85)
+for(i in seq_along(delta)) {
+  lines(sample_sizes,success_probability(sample_sizes,delta[i]),
+        col=colors[i],lty=styles[i],lwd=2.5)
+  n <- results$bayes_threshold_95[i]
+  points(n,success_probability(n,delta[i]),col=colors[i],pch=symbols[i],cex=1.1)
+}
+legend("bottomright",inset=.03,legend=delta,title="Assumed difference",
+       col=colors,lty=styles,pch=symbols,lwd=2.5,bty="n",cex=.88)
 dev.off()
 capture.output(sessionInfo(),file=file.path(out,"session-info.txt"))
 print(results)

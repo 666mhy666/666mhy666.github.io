@@ -2,10 +2,12 @@
 
 ## Original coursework
 
-The original coursework compared Bayesian and frequentist sample-size calculations for a hypothetical LDL trial.
+The original project compared Bayesian and frequentist sample-size planning for a hypothetical two-arm LDL trial. It used normal-normal updating, candidate effect sizes and simulation across an enrollment grid. The report described an 80% design target. The executable R Markdown used a 95% target and paired a 0.95 posterior cutoff with a one-sided frequentist α of 0.025.
 
-## September 2026 portfolio revision
+## September 2026 analysis revision
 
-The September 2026 revision reconciled the report’s 80% wording with the code’s 95% target, matched decision thresholds across approaches, replaced noisy grid estimates with exact probabilities, and added seeded Monte Carlo checks. Unattained targets now return NA rather than an invalid minimum.
+The public analysis fixed the design target at 95% and paired each posterior cutoff with its corresponding one-sided frequentist threshold. It replaced the simulation grid for determining sample size with an exact normal tail calculation. A seeded simulation checks the resulting design probabilities. An unmet target returns NA. The separate design-prior assurance helper remains distinct from the fixed-effect calculations in the main results.
 
-The public revision was prepared with coding-assistant support to improve reproducibility and interpretation. Published numerical findings refer to the revised scripts and generated outputs unless stated otherwise. Original graded reports, instructor prompts, source data, student identifiers, and notebook outputs are not included.
+## November 2026 presentation revision
+
+The case study separates the rule applied after observing data from the success probability used to plan enrollment. The probability figure now marks the first qualifying n on each curve. The sample-size and simulation outputs are unchanged. Coding-assistant support was used for documentation, figure presentation and reproduction checks.

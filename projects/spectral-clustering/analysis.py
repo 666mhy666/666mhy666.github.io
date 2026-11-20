@@ -5,6 +5,7 @@ import argparse, json, warnings
 import numpy as np
 import pandas as pd
 from scipy.linalg import eigh
+from scipy.optimize import linear_sum_assignment
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import connected_components
 from sklearn.cluster import KMeans
@@ -14,6 +15,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
 
 
 def spectral_embedding(affinity, k):
@@ -61,6 +63,31 @@ def spectral_rbf(X, sigma2, k, seed=42):
     np.fill_diagonal(a, 0)
     z, c = spectral_embedding(a, k)
     return KMeans(n_clusters=k, n_init=20, random_state=seed).fit_predict(z), c
+
+
+def save_geometry_figure(coordinates, reference, predictions, output, height):
+    palette = ListedColormap(["#23597a", "#bd6038", "#168176"])
+    fig, axes = plt.subplots(1, 3, figsize=(10, height))
+    fig.subplots_adjust(left=0.01, right=0.99, bottom=0.02, top=0.98, wspace=0.19)
+    reference_labels, reference_colors = np.unique(reference, return_inverse=True)
+    display_colors = [reference_colors]
+    for labels in predictions:
+        clusters, codes = np.unique(labels, return_inverse=True)
+        overlap = np.zeros((len(reference_labels), len(clusters)), dtype=int)
+        np.add.at(overlap, (reference_colors, codes), 1)
+        reference_order, cluster_order = linear_sum_assignment(overlap, maximize=True)
+        color_map = np.arange(len(clusters))
+        color_map[cluster_order] = reference_order
+        display_colors.append(color_map[codes])
+    for ax, colors in zip(axes, display_colors):
+        ax.scatter(
+            coordinates[:, 0], coordinates[:, 1], c=colors, cmap=palette,
+            vmin=0, vmax=2, s=11, linewidths=0,
+        )
+        ax.set_aspect("equal")
+        ax.set_axis_off()
+    fig.savefig(output, dpi=180)
+    plt.close(fig)
 
 
 def run(halfmoon, bullseye, out):
@@ -118,6 +145,12 @@ def run(halfmoon, bullseye, out):
             ax.set_title(f"{name}: {method}", fontsize=10)
             ax.set_xlabel("X1")
             ax.set_ylabel("X2")
+        # All labels here are used only for display, after the clustering fits.
+        save_geometry_figure(
+            X, y, [plotted[0][1], plotted[1][1]],
+            out / f"{name.lower()}-assignments.png",
+            height=2.25 if name == "Halfmoon" else 3.1,
+        )
     results = pd.DataFrame(rows)
     results.to_csv(out / "clustering-comparison.csv", index=False)
     fig.savefig(out / "clustering-comparison.png", dpi=170)

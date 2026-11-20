@@ -1,33 +1,35 @@
 # Methods and interpretation
 
-## Question
+## Geometry and evaluation
 
-When does a graph representation recover nonlinear cluster geometry that k-means misses?
+Halfmoon contains two interleaved arcs. Bullseye contains three concentric rings. K-means on the original coordinates assigns points to their nearest centroid. The straight boundaries cut across the curved and nested structures. The clustering fits use the coordinates and known cluster counts. Reference labels are used after fitting for adjusted Rand index (ARI) and to align display colors by largest total overlap. Display colors leave the fitted assignments and scores unchanged.
 
-## Data
+## Affinities and embedding
 
-Two synthetic benchmark datasets. Exact results use the two supplied teaching CSVs, not redistributed here. Each requires X1, X2, Cluster. The labels are used only to describe recovery, not to fit the clustering models. Other synthetic inputs can be supplied but will produce different scores.
+[analysis.py](analysis.py) builds an undirected nearest-neighbor graph by symmetrizing the binary neighbor matrix. It compares 5, 10, 15 and 20 neighbors. The separate Gaussian RBF graph weights point pairs by their squared distances with σ² = 0.01 for Halfmoon and 0.1 for Bullseye. Self edges are zero.
 
-## Analysis
+Given affinity A and its degree matrix D, the analysis takes the leading k eigenvectors of D⁻¹ᐟ² A D⁻¹ᐟ². These correspond to the smallest eigenvalues of the symmetric normalized Laplacian. It normalizes each row of the embedding and runs k-means on the resulting coordinates, with k = 2 for Halfmoon and k = 3 for Bullseye. The code counts connected components and rejects zero-degree nodes. The [tests](test_analysis.py) cover a three-block graph and the isolated-node failure case.
 
-I implemented normalized graph-Laplacian clustering, compared it with k-means, and reported adjusted Rand index, graph connectivity, and isolated-node diagnostics across a neighbor grid.
+## Results
 
-The entry point is `analysis.py`. Parameters, variables, assumptions, and analysis cohorts are recorded in the code and generated result files.
+Ordinary k-means scored 0.253 and 0.004 for Halfmoon and Bullseye. The Gaussian RBF run scored 1.0 for both. The neighbor comparison makes the role of graph construction visible:
 
-## Findings
+| Neighbors | Halfmoon components | Halfmoon ARI | Bullseye components | Bullseye ARI, saved |
+| ---: | ---: | ---: | ---: | ---: |
+| 5 | 2 | 1.0 | 5 | 0.923 |
+| 10 | 2 | 1.0 | 3 | 1.0 |
+| 15 | 2 | 1.0 | 3 | 1.0 |
+| 20 | 2 | 1.0 | 3 | 1.0 |
 
-At 10 neighbors, normalized spectral clustering achieved ARI 1.0 on both supplied datasets, compared with 0.253 and 0.004 for k-means. The neighbor grid is reported in full, including disconnected-graph diagnostics. These are descriptive benchmark scores, not held-out performance.
+At five neighbors, Bullseye has five components but the embedding keeps three eigenvectors. The repeated leading eigenvalue leaves this three-dimensional selection non-unique. A rerun with the default local thread settings reproduced the saved score. When the numerical libraries used different thread settings, they returned different embeddings and ARIs for that cell. Each rerun recovered the five-component diagnosis. The 10, 15 and 20 neighbor runs and the RBF runs reproduced the saved scores.
 
-![K-means and normalized spectral-clustering assignments on the two supplied datasets.](results/clustering-comparison.png)
+## Scope and revision
 
-_K-means and normalized spectral-clustering assignments on the two supplied datasets._
+The original notebook compared k-means, Laplacian eigenvectors, a neighbor grid and Gaussian affinities. Different original sections handled the embedding and cluster count differently. The portfolio revision fixes the cluster counts at two and three, separates the number of graph neighbors from the embedding dimension, and reports graph connectivity. The two benchmark scores describe recovery with known cluster counts and selected affinities. Generalization to other data and performance at large scale remain open. [Revision notes](REVISION_NOTES.md)
 
-## Assumptions and interpretation
+## Outputs
 
-The number of clusters is known for these teaching examples. ARI uses the provided reference labels for evaluation. Affinity choices matter, and perfect recovery of these examples is not evidence of broad generalization. Dense eigendecomposition is not designed for large datasets.
-
-## Result files
-
-- [clustering-comparison.csv](results/clustering-comparison.csv)
-- [clustering-comparison.png](results/clustering-comparison.png)
-- [run.json](results/run.json)
+- [Run metadata](results/run.json) and [complete results](results/clustering-comparison.csv)
+- [Halfmoon assignments](results/halfmoon-assignments.png) and [Bullseye assignments](results/bullseye-assignments.png)
+- [Original comparison including RBF](results/clustering-comparison.png)
+- [Input and access instructions](DATA_ACCESS.md)

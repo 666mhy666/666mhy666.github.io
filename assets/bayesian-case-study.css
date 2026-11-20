@@ -1,0 +1,56 @@
+.ldl-study { max-width: 960px; margin: 0 0 42px; }
+
+.ldl-probabilities {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.ldl-probabilities section {
+  background: var(--tint);
+  border-top: 3px solid var(--blue);
+  padding: 14px 16px;
+}
+
+.ldl-probabilities h3 { margin: 0 0 6px; font-size: 17px; }
+.ldl-probabilities p { margin-bottom: 0; }
+
+.ldl-results {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.ldl-results figure { margin: 0; }
+.ldl-results img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.ldl-sizes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 8px;
+}
+
+.ldl-sizes caption { text-align: left; padding-bottom: 6px; font-weight: 650; }
+.ldl-sizes thead { background: var(--tint); }
+.ldl-sizes :is(th, td) { padding: 7px; border-bottom: 1px solid var(--line); text-align: right; }
+.ldl-sizes th:first-child { text-align: left; }
+
+.ldl-checks { margin: 0; }
+.ldl-checks div { padding: 10px 0; border-top: 1px solid var(--line); }
+.ldl-checks dt { font-weight: 650; }
+.ldl-checks dd { margin: 3px 0 0; }
+
+@media (max-width: 720px) {
+  .ldl-probabilities, .ldl-results { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}

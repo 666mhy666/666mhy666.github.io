@@ -1,42 +1,37 @@
 # Spectral Clustering for Nonlinear Structure
 
-Compare Euclidean k-means with graph-based clustering on two moons and concentric rings.
+When do graph connections recover groups that straight centroid boundaries cut through? I compared ordinary k-means with nearest-neighbor and Gaussian-affinity spectral clustering on two supplied teaching examples: intertwined moons and concentric rings.
 
-**Author:** Heyang Ma · Independent UCLA graduate course project, revised for this portfolio.
-**Tools:** Python / SciPy, Graph Laplacians, Clustering diagnostics. **Scope:** Two synthetic benchmark datasets.
+[Read the case study](https://666mhy666.github.io/projects/spectral-clustering/) · [Open the Python analysis](analysis.py) · Independent UCLA graduate coursework
 
-## Question
+## From points to a graph
 
-When does a graph representation recover nonlinear cluster geometry that k-means misses?
+I linked nearby points, normalized the affinity matrix and used its leading eigenvectors to give each point new coordinates. K-means then clustered those coordinates. The examples use the known cluster counts of two and three. The supplied labels are used after fitting to assess agreement and show the reference geometry.
 
-## What I did
+## What I found
 
-I implemented normalized graph-Laplacian clustering, compared it with k-means, and reported adjusted Rand index, graph connectivity, and isolated-node diagnostics across a neighbor grid.
+| Method | Halfmoon ARI | Bullseye ARI |
+| --- | ---: | ---: |
+| K-means on the original coordinates | 0.253 | 0.004 |
+| Spectral with 10 neighbors | 1.0 | 1.0 |
+| Spectral with Gaussian RBF affinity | 1.0 | 1.0 |
 
-## Main finding
+ARI measures agreement with the supplied labels. A score of 1 is a perfect match and a score near 0 indicates little agreement beyond chance. All four tested neighbor counts scored 1.0 for Halfmoon. For Bullseye, five neighbors produced five components for three rings and a saved ARI of 0.923. The score for that setting can vary with the eigensolver's choice of eigenvectors. At 10, 15 and 20 neighbors, there were three components and the scores were 1.0. [Full neighbor grid](results/clustering-comparison.csv)
 
-At 10 neighbors, normalized spectral clustering achieved ARI 1.0 on both supplied datasets, compared with 0.253 and 0.004 for k-means. The neighbor grid is reported in full, including disconnected-graph diagnostics. These are descriptive benchmark scores, not held-out performance.
+![Bullseye reference geometry, k-means and 10-neighbor spectral assignments in the original coordinate space.](results/bullseye-assignments.png)
 
-![K-means and normalized spectral-clustering assignments on the two supplied datasets.](results/clustering-comparison.png)
+[Halfmoon comparison](results/halfmoon-assignments.png) · [Original comparison including RBF](results/clustering-comparison.png)
 
-_K-means and normalized spectral-clustering assignments on the two supplied datasets._
+These are descriptive results on two synthetic examples. The known group counts and chosen graph settings matter. The dense eigendecomposition limits scale.
 
-## Important limitations
+## Reproduce
 
-The number of clusters is known for these teaching examples. ARI uses the provided reference labels for evaluation. Affinity choices matter, and perfect recovery of these examples is not evidence of broad generalization. Dense eigendecomposition is not designed for large datasets.
-
-## Code and reproducibility
-
-Install Python dependencies with `python -m pip install -r requirements.txt`.
-Read [data access and input requirements](DATA_ACCESS.md), then run from this repository:
+Use an authorized copy of the teaching CSVs described in [DATA_ACCESS.md](DATA_ACCESS.md). Run the analysis and graph tests from the repository root:
 
 ```sh
-python analysis.py --halfmoon data/halfmoon.csv --bullseye data/bullseye.csv --output results
+python -m pip install -r requirements.txt
+python analysis.py --halfmoon data/halfmoon.csv --bullseye data/bullseye.csv --output data/reproduced-results
+python -m unittest test_analysis.py
 ```
 
-
-The executable analysis is [analysis.py](analysis.py). See [REPORT.md](REPORT.md) for model details and interpretation, [DATA_ACCESS.md](DATA_ACCESS.md) for inputs, and [REVISION_NOTES.md](REVISION_NOTES.md) for the distinction between the course project and portfolio revision. The committed `results/` files are generated summaries from the revision.
-
-## Checks
-
-Run `python -m unittest test_analysis.py`. These tests cover the corrected failure cases; they do not replace statistical validation.
+See the [report](REPORT.md) for affinity and connectivity details and the [revision notes](REVISION_NOTES.md) for what changed after the coursework.
