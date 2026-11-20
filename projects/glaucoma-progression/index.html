@@ -1,1 +1,52 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Longitudinal Retinal Thickness in Glaucoma | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a><section class="detail-intro"><p class="eyebrow">R / nlme · Nonlinear trajectories · Residual correlation</p><h1>Longitudinal Retinal Thickness in Glaucoma</h1><p class="lede">Compare time trends and within-person correlation structures for retinal ganglion cell complex thickness.</p><p class="meta">107 subjects · 786 visits · Independent UCLA academic project</p><div class="intro-links"><a href="https://github.com/666mhy666/glaucoma-progression">View code on GitHub →</a></div></section><div class="detail-layout"><article class="prose"><h2>Question</h2><p>How does GCC thickness change during follow-up, and which covariance structure describes repeated measurements?</p><h2>What I did</h2><p>I compared linear and quadratic time trends, then evaluated random effects and residual correlation structures for repeated GCC measurements with a common fixed-effects specification.</p><h2>Main finding</h2><p>A quadratic mean trajectory was preferred among the tested mean structures by BIC. With that fixed mean, random intercepts and slopes plus continuous-time AR(1) residuals had the lowest BIC (4078.6). The fitted time terms were −1.634 × time + 0.221 × time².</p><figure><img src="results/gcc-trajectory.png" alt="Observed GCC measurements and the fitted quadratic mean trajectory." style="width:100%;height:auto"><figcaption class="small">Observed GCC measurements and the fitted quadratic mean trajectory.</figcaption></figure><h2>Important limitations</h2><p>Model comparisons are exploratory; intervals omit model-selection uncertainty. Baseline severity groups can show regression to the mean even when the baseline visit is removed from follow-up modeling. The fitted curve should not be extrapolated beyond observed follow-up or interpreted as a treatment effect.</p><p class="small">I revisited the course analysis to compare mean and covariance structures consistently and account for irregular visit times. <a href="https://github.com/666mhy666/glaucoma-progression/blob/main/REVISION_NOTES.md">Revision details on GitHub →</a></p></article><aside class="aside"><h2>Explore on GitHub</h2><p><a href="https://github.com/666mhy666/glaucoma-progression"><strong>View code on GitHub →</strong></a></p><ul><li><a href="https://github.com/666mhy666/glaucoma-progression/blob/main/README.md">README</a></li><li><a href="https://github.com/666mhy666/glaucoma-progression/blob/main/REPORT.md">Methods and results</a></li><li><a href="https://github.com/666mhy666/glaucoma-progression/blob/main/DATA_ACCESS.md">Data access</a></li><li><a href="https://github.com/666mhy666/glaucoma-progression/blob/main/REVISION_NOTES.md">Revision notes</a></li></ul></aside></div></main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September 2026</span></footer></div></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Longitudinal Retinal Thickness in Glaucoma | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="stylesheet" href="../../assets/glaucoma-case-study.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a>
+<section class="detail-intro">
+  <p class="eyebrow">Ophthalmology · Longitudinal data · R</p>
+  <h1>Longitudinal Retinal Thickness in Glaucoma</h1>
+  <p class="lede">How does retinal thickness change when patients return at different times? A curved trend fit these data better than a straight line. The selected model also supported stronger within-patient correlation between visits closer together in time.</p>
+  <p class="meta">107 patients · 786 visits · Up to 4.2 years of follow-up · Independent UCLA academic project</p>
+  <div class="intro-links">
+    <a href="https://github.com/666mhy666/glaucoma-progression">View the repository</a>
+    <a href="https://github.com/666mhy666/glaucoma-progression/blob/main/analysis.R">Open the R analysis</a>
+  </div>
+</section>
+
+<article class="prose gcc-study">
+  <div class="gcc-lead">
+    <figure>
+      <a href="results/gcc-trajectory.png"><img src="results/gcc-trajectory.png" alt="Fitted population mean GCC thickness declines, reaches a late minimum, and turns slightly upward near the end of follow-up."></a>
+      <figcaption class="small">Model-estimated mean GCC thickness over follow-up. The line shows population-level predictions. <a href="https://github.com/666mhy666/glaucoma-progression/blob/main/results/mean-trajectory.csv">Trajectory values</a>.</figcaption>
+    </figure>
+    <div>
+      <h2>The fitted decline became less steep over follow-up</h2>
+      <p>The fitted mean reached a minimum around 3.7 years, then turned slightly upward near the end of follow-up. I treat the small upturn as a feature of the quadratic fit at the boundary and avoid reading it as retinal recovery.</p>
+      <p>The curve describes the average across patients. In the original patient profiles, starting thickness and rates of change varied within the cohort.</p>
+      <p>GCC is the retinal ganglion cell complex. Thickness was measured in micrometers.</p>
+    </div>
+  </div>
+
+  <section class="gcc-timing">
+    <h2>Why the spacing between visits mattered</h2>
+    <p>Patients returned at different intervals. Two successive visits could be months apart for one patient and much farther apart for another. I used the actual time between visits so the model could allow measurements taken closer together to remain more alike after accounting for each patient’s trajectory.</p>
+  </section>
+
+  <h2>How I chose the model</h2>
+  <dl class="gcc-model-steps">
+    <div><dt>Compare the mean trends</dt><dd>I compared a flat mean, a straight line, a quadratic curve and a log-time curve by maximum likelihood. The quadratic had the lowest BIC. Its time terms in the final model were −1.634 × time + 0.221 × time², with time in years.</dd></div>
+    <div><dt>Compare how visits are related</dt><dd>With the same quadratic mean, I compared models by restricted maximum likelihood. Random intercepts and slopes let patients start at different thicknesses and change at different rates. Adding continuous-time AR(1) let the remaining within-patient correlation decay with time separation and gave the lowest BIC (4,078.6).</dd></div>
+  </dl>
+  <p class="small"><a href="https://github.com/666mhy666/glaucoma-progression/blob/main/results/mean-models-ml.csv">Mean comparisons</a> · <a href="https://github.com/666mhy666/glaucoma-progression/blob/main/results/covariance-models.csv">Correlation comparisons</a> · <a href="https://github.com/666mhy666/glaucoma-progression/blob/main/results/coefficients.csv">Model coefficients</a></p>
+
+  <h2>What age and baseline thickness added</h2>
+  <div class="gcc-secondary">
+    <section><h3>Age</h3><p>The coursework compared baseline thickness across ages and considered several ways age could relate to change over time. In the revised comparison, adding baseline age and its interaction with linear time did not improve BIC.</p><p class="small"><a href="https://github.com/666mhy666/glaucoma-progression/blob/main/results/age-models-ml.csv">Age model comparison</a></p></section>
+    <section><h3>Baseline thickness</h3><p>In a separate model using follow-up visits, the group with higher starting GCC had an estimated 0.559 μm/year steeper decline. The groups were formed using the first measurement, so extreme first readings can move toward typical values at later visits even when the baseline visit is left out of the fit.</p><p class="small"><a href="https://github.com/666mhy666/glaucoma-progression/blob/main/results/exploratory-baseline-interaction.csv">Exploratory subgroup model</a></p></section>
+  </div>
+
+  <h2>Diagnostics and limits</h2>
+  <p>I checked normalized residuals against fitted values and inspected a normal Q–Q plot. The comparisons are exploratory, and the coefficient intervals do not account for model selection. The curve describes the observed follow-up period, and the baseline-group comparison cannot establish that patients with higher starting thickness progress faster biologically.</p>
+  <p class="small">The coursework explored individual profiles, alternative mean and covariance models, age and baseline severity. The September 2026 revision used a common mean for the covariance comparisons and updated the baseline-group analysis. <a href="https://github.com/666mhy666/glaucoma-progression/blob/main/REVISION_NOTES.md">Revision history</a>.</p>
+
+  <h2>Code and supporting results</h2>
+  <p><a href="https://github.com/666mhy666/glaucoma-progression/blob/main/analysis.R">R analysis</a> · <a href="https://github.com/666mhy666/glaucoma-progression/tree/main/results">Results directory</a> · <a href="https://github.com/666mhy666/glaucoma-progression/blob/main/results/diagnostics.png">Residual diagnostics</a> · <a href="https://github.com/666mhy666/glaucoma-progression/blob/main/REPORT.md">Methods and interpretation</a> · <a href="https://github.com/666mhy666/glaucoma-progression/blob/main/DATA_ACCESS.md">Data access</a></p>
+</article>
+</main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September–November 2026</span></footer></div></body></html>

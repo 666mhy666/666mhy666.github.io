@@ -1,42 +1,34 @@
 # Maternal Smoking and Birth Weight
 
-Compare how the estimated birth weight difference associated with maternal smoking changes after covariate adjustment.
+How much does the birth weight difference associated with maternal smoking change after adjustment? I compared births by reported smoking during pregnancy and fit both models on the same 4,642 complete records (864 with reported smoking and 3,778 without).
 
-**Author:** Heyang Ma · Independent UCLA graduate course project, revised for this portfolio.
-**Tools:** Python / statsmodels, Regression adjustment, Robust uncertainty. **Scope:** 4,642 observations.
+[Read the case study](https://666mhy666.github.io/projects/maternal-smoking-birthweight/) · [Open the Python analysis](analysis.py) · Independent UCLA graduate coursework
 
-## Question
+## Why adjust?
 
-How does the association between maternal smoking and birth weight change after measured covariate adjustment?
+The recorded smoking intensity codes agreed with the binary indicator. The original histograms showed a shift toward lower birth weights in the smoking group. The groups also differed in maternal age, education, marital status and alcohol use. I used a [DAG](results/coursework-dag.svg) to choose maternal age, race, education, marital status and alcohol use for adjustment. The graph places prenatal care on a possible pathway from smoking to birth weight, so I left it out of the primary model.
 
-## What I did
+The [overlap counts](results/overlap-counts.csv) show smokers and nonsmokers in every education-by-race group examined. In the two groups with 16 or more years of education, only 3.9% and 4.8% reported smoking. That sparse overlap makes the adjusted comparison more dependent on modeling assumptions.
 
-I fit unadjusted and covariate-adjusted linear regressions on a common complete-case cohort and used HC3 confidence intervals to compare the smoking association before and after adjustment.
+## What I found
 
-## Main finding
+| Model | Birth weight difference | HC3 95% CI |
+| --- | ---: | ---: |
+| Unadjusted | −275 g | −317 to −234 g |
+| Adjusted | −233 g | −277 to −189 g |
 
-The unadjusted difference was −275 g (HC3 95% CI −317 to −234). Adjusting for maternal age, race, education, marital status, and alcohol use gave −233 g (−277 to −189). Both fits use the same 4,642 observations.
+The gap narrowed after adjustment. Relative to no reported smoking, adjusted differences for recorded intensity levels 1, 2 and 3 were −158 g, −225 g and −289 g. These are observational associations. The categories do not establish a causal dose-response relationship, and unmeasured confounding remains possible.
 
-![Unadjusted and adjusted birth-weight associations with HC3 95% confidence intervals.](results/birthweight-associations.png)
+![Binary smoking and adjusted intensity estimates, with HC3 95% confidence intervals.](results/birthweight-associations.png)
 
-_Unadjusted and adjusted birth-weight associations with HC3 95% confidence intervals._
+## Start here
 
-## Important limitations
+Open [analysis.py](analysis.py) to see cohort construction, both comparisons and the intensity model. The [report](REPORT.md) explains the DAG and assumptions and links the balance, overlap and estimate outputs. See [revision history](REVISION_NOTES.md) for the distinction between coursework and the portfolio analysis.
 
-This is observational evidence. Adjustment does not eliminate unmeasured confounding, exposure misclassification, or selection bias. Intensity categories are treated as categorical; the analysis does not claim a causal dose-response relationship. No formal sensitivity analysis was performed.
-
-## Code and reproducibility
-
-Install Python dependencies with `python -m pip install -r requirements.txt`.
-Read [data access and input requirements](DATA_ACCESS.md), then run from this repository:
+Obtain the authorized course extract described in [DATA_ACCESS.md](DATA_ACCESS.md) and run from the repository root:
 
 ```sh
-python analysis.py --data data/bweight.csv --output results
+python -m pip install -r requirements.txt
+python analysis.py --data data/bweight.csv --output data/reproduced-results
+python -m unittest test_analysis.py
 ```
-
-
-The executable analysis is [analysis.py](analysis.py). See [REPORT.md](REPORT.md) for model details and interpretation, [DATA_ACCESS.md](DATA_ACCESS.md) for inputs, and [REVISION_NOTES.md](REVISION_NOTES.md) for the distinction between the course project and portfolio revision. The committed `results/` files are generated summaries from the revision.
-
-## Checks
-
-Run `python -m unittest test_analysis.py`. These tests cover the corrected failure cases; they do not replace statistical validation.

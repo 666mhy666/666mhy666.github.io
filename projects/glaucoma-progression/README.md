@@ -1,39 +1,27 @@
 # Longitudinal Retinal Thickness in Glaucoma
 
-Compare time trends and within-person correlation structures for retinal ganglion cell complex thickness.
+I modeled retinal ganglion cell complex (GCC) thickness in 107 patients across 786 visits. Patients returned at different intervals, so I compared models that account for the actual time between measurements.
 
-**Author:** Heyang Ma · Independent UCLA graduate course project, revised for this portfolio.
-**Tools:** R / nlme, Nonlinear trajectories, Residual correlation. **Scope:** 107 subjects · 786 visits.
+[Read the case study](https://666mhy666.github.io/projects/glaucoma-progression/) · [Open the R analysis](analysis.R) · Independent UCLA graduate coursework
 
-## Question
+## What I found
 
-How does GCC thickness change during follow-up, and which covariance structure describes repeated measurements?
+A quadratic curve fit the population mean better by BIC than the flat, linear and log-time alternatives. The fitted decline became less steep, with a minimum around 3.7 years and a slight upturn near the end of follow-up. I interpret that upturn cautiously as a feature of the fitted quadratic at the boundary. For the same quadratic mean, random intercepts and slopes plus continuous-time AR(1) residual correlation gave the lowest BIC (4,078.6). This allows different starting thicknesses and slopes by patient, and residual correlation that fades as visits get farther apart.
 
-## What I did
+![Model-estimated mean GCC thickness over follow-up.](results/gcc-trajectory.png)
 
-I compared linear and quadratic time trends, then evaluated random effects and residual correlation structures for repeated GCC measurements with a common fixed-effects specification.
+_The figure shows population-level model predictions._
 
-## Main finding
+## Age and baseline thickness
 
-A quadratic mean trajectory was preferred among the tested mean structures by BIC. With that fixed mean, random intercepts and slopes plus continuous-time AR(1) residuals had the lowest BIC (4078.6). The fitted time terms were −1.634 × time + 0.221 × time².
+Adding baseline age and an age-by-time term did not improve BIC in the revised comparison. In a separate model of follow-up visits, the higher baseline-GCC group had a steeper fitted decline. Grouping by the first measurement can produce regression to the mean even when that visit is excluded from the model. The subgroup result is exploratory.
 
-![Observed GCC measurements and the fitted quadratic mean trajectory.](results/gcc-trajectory.png)
+## Start here
 
-_Observed GCC measurements and the fitted quadratic mean trajectory._
+[analysis.R](analysis.R) runs the mean and covariance comparisons, the age and baseline-group analyses, and residual diagnostics. See the [report](REPORT.md) for the model choices and result tables, the [diagnostic plot](results/diagnostics.png), and the [revision notes](REVISION_NOTES.md).
 
-## Important limitations
-
-Model comparisons are exploratory; intervals omit model-selection uncertainty. Baseline severity groups can show regression to the mean even when the baseline visit is removed from follow-up modeling. The fitted curve should not be extrapolated beyond observed follow-up or interpreted as a treatment effect.
-
-## Code and reproducibility
-
-Use R 4.5.2; the recommended package `nlme` is required.
-Read [data access and input requirements](DATA_ACCESS.md), then run from this repository:
+Use R 4.5.2 with `nlme`. Obtain the authorized extract described in [DATA_ACCESS.md](DATA_ACCESS.md) and run from the repository root:
 
 ```sh
-Rscript analysis.R data/ADAP_Macula_GCC_dataset.csv results
+Rscript analysis.R data/ADAP_Macula_GCC_dataset.csv data/reproduced-results
 ```
-
-
-The executable analysis is [analysis.R](analysis.R). See [REPORT.md](REPORT.md) for model details and interpretation, [DATA_ACCESS.md](DATA_ACCESS.md) for inputs, and [REVISION_NOTES.md](REVISION_NOTES.md) for the distinction between the course project and portfolio revision. The committed `results/` files are generated summaries from the revision.
-

@@ -2,10 +2,12 @@
 
 ## Original coursework
 
-The original coursework modeled longitudinal retinal thickness and within-subject correlation.
+The coursework explored individual profiles, GCC distributions and baseline age, compared population time trends and covariance structures, and investigated age and baseline-severity follow-up. It included continuous-time AR(1) in a covariance candidate with a linear fixed mean.
 
-## September 2026 portfolio revision
+## September 2026 analysis revision
 
-The September 2026 revision compared mean structures using ML and covariance structures with an identical fixed-effects formula, used continuous-time correlation for irregular visits, computed the baseline median once per subject, and estimated the exploratory interaction from the fitted model.
+The revised analysis compares mean structures by maximum likelihood and uses one fixed mean for the REML covariance comparisons, including continuous-time AR(1) for irregular visits. It computes the baseline median once per subject and estimates the slope difference in a model fit to postbaseline visits. Numerical findings in the public report and case study refer to this revision.
 
-The public revision was prepared with coding-assistant support to improve reproducibility and interpretation. Published numerical findings refer to the revised scripts and generated outputs unless stated otherwise. Original graded reports, instructor prompts, source data, student identifiers, and notebook outputs are not included.
+## November 2026 presentation revision
+
+The site and repository documentation explain why visit spacing mattered, how the model comparisons were structured, and what the age and baseline analyses showed. The lead figure caption was corrected to identify the population-level predictions. Coding-assistant support was used for documentation and reproducibility checks. The graded report, raw subject profiles and source data remain private.

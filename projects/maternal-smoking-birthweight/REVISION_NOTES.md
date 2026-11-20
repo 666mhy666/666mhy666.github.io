@@ -2,10 +2,12 @@
 
 ## Original coursework
 
-The original coursework used regression to study maternal smoking and birth weight.
+The analysis cross-checked smoking codes, compared birth weight distributions and baseline covariates, drew a DAG, discussed identification assumptions, examined education-by-race overlap and fit binary and categorical smoking regressions.
 
-## September 2026 portfolio revision
+## September 2026 analysis revision
 
-The September 2026 revision preserved missing smoking status rather than coding it as nonsmoking, used a common complete-case cohort for model comparison, added HC3 uncertainty, and removed unsupported claims about robustness to unmeasured confounding.
+The public analysis retains missing smoking status, uses a common complete-case cohort for all three models and calculates HC3 confidence intervals. It reports associations without claims about robustness to unmeasured confounding or a causal dose response.
 
-The public revision was prepared with coding-assistant support to improve reproducibility and interpretation. Published numerical findings refer to the revised scripts and generated outputs unless stated otherwise. Original graded reports, instructor prompts, source data, student identifiers, and notebook outputs are not included.
+## November 2026 presentation revision
+
+The case study and repository documentation restore the original descriptive and overlap reasoning. The redrawn diagram follows the original written list of directed edges. The analysis code, tests and numerical results were preserved. Coding-assistant support was used for documentation and reproducibility checks. The graded report and source data remain private.

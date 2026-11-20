@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1114" height="592" viewBox="0 0 1114 592" role="img" aria-labelledby="title description">
+  <title id="title">Coursework DAG for maternal smoking and birth weight</title>
+  <desc id="description">Smoking is on the left and birth weight is on the right. Five background factors in the middle each point to both. The direct path and the path through prenatal care are emphasized. The full graph contains eight variables and 23 directed arrows.</desc>
+  <style>
+    .edge { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .gap { stroke: #fff; stroke-width: 5.3; }
+    .edge .context { stroke: #778b98; stroke-width: 1.6; marker-end: url(#arrow-context); }
+    .edge .fan { stroke: #586f80; stroke-width: 1.8; marker-end: url(#arrow-fan); }
+    .edge .pathway { stroke: #377486; stroke-width: 2.5; marker-end: url(#arrow-pathway); }
+    .edge .main { stroke: #23597a; stroke-width: 3; marker-end: url(#arrow-main); }
+    .node rect { stroke: #a2b4c1; stroke-width: 1.3; fill: #eef3f5; }
+    .node text { font: 20px Arial, sans-serif; fill: #1b2d3a; text-anchor: middle; }
+    .key rect { stroke: #23597a; stroke-width: 1.9; fill: #dcecf5; }
+    .key .name { font-size: 23px; font-weight: 700; }
+    .key .role { font-size: 16px; fill: #435f71; }
+    .mediator rect { stroke: #6e8b9b; fill: #f7fafb; }
+    .group-label { font: 15px Arial, sans-serif; fill: #435f71; text-anchor: middle; }
+  </style>
+  <defs>
+    <marker id="arrow-context" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" viewBox="0 0 9 9" refX="8.5" refY="4.5" orient="auto">
+      <path d="M 0 0 L 9 4.5 L 0 9 L 1.9 4.5 Z" fill="#778b98"/>
+    </marker>
+    <marker id="arrow-fan" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" viewBox="0 0 9 9" refX="8.5" refY="4.5" orient="auto">
+      <path d="M 0 0 L 9 4.5 L 0 9 L 1.9 4.5 Z" fill="#586f80"/>
+    </marker>
+    <marker id="arrow-pathway" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" viewBox="0 0 9 9" refX="8.5" refY="4.5" orient="auto">
+      <path d="M 0 0 L 9 4.5 L 0 9 L 1.9 4.5 Z" fill="#377486"/>
+    </marker>
+    <marker id="arrow-main" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" viewBox="0 0 9 9" refX="8.5" refY="4.5" orient="auto">
+      <path d="M 0 0 L 9 4.5 L 0 9 L 1.9 4.5 Z" fill="#23597a"/>
+    </marker>
+    <path id="age-to-prenatal" d="M 443 55 C 345 22 235 20 134 25 C 66 29 17 65 17 131 V 452 C 17 502 47 535 100 535 H 438"/>
+    <path id="age-to-education" d="M 455 89 C 427 100 406 110 406 137 V 180 Q 406 207 438 207"/>
+    <path id="age-to-married" d="M 610 89 C 644 100 666 126 666 151 V 295 Q 666 326 628 327"/>
+    <path id="age-to-alcohol" d="M 623 78 C 675 79 704 104 704 143 V 374 Q 704 414 628 413"/>
+    <path id="race-to-education" d="M 536 166 V 192"/>
+    <path id="race-to-married" d="M 459 166 C 428 176 385 177 385 207 V 298 Q 385 328 438 330"/>
+    <path id="race-to-alcohol" d="M 623 154 C 660 154 684 177 684 209 V 367 Q 684 403 628 403"/>
+    <path id="education-to-married" d="M 536 243 V 313"/>
+    <path id="education-to-alcohol" d="M 461 243 C 427 253 414 275 414 298 V 373 Q 414 404 438 404"/>
+    <path id="married-to-prenatal" d="M 609 364 C 638 376 655 392 655 418 V 489 Q 655 533 628 534"/>
+    <path id="age-to-smoking" d="M 443 66 C 362 70 286 210 207 237"/>
+    <path id="race-to-smoking" d="M 443 143 C 356 148 283 227 207 251"/>
+    <path id="education-to-smoking" d="M 443 220 C 356 221 284 257 207 265"/>
+    <path id="married-to-smoking" d="M 443 341 C 358 340 283 308 207 298"/>
+    <path id="alcohol-to-smoking" d="M 443 418 C 355 417 282 341 207 313"/>
+    <path id="age-to-weight" d="M 623 66 C 719 68 820 207 902 237"/>
+    <path id="race-to-weight" d="M 623 143 C 721 149 820 227 902 251"/>
+    <path id="education-to-weight" d="M 623 220 C 721 220 818 255 902 265"/>
+    <path id="married-to-weight" d="M 623 341 C 718 340 817 307 902 298"/>
+    <path id="alcohol-to-weight" d="M 623 418 C 716 416 819 340 902 313"/>
+    <path id="smoking-to-prenatal" d="M 202 327 C 269 345 292 550 438 551"/>
+    <path id="prenatal-to-weight" d="M 623 551 C 774 551 823 356 902 327"/>
+    <path id="smoking-to-weight" d="M 202 281 H 902"/>
+  </defs>
+  <rect width="1114" height="592" fill="#fff"/>
+  <!-- A white underlay separates overlapping routes at crossings. -->
+  <g class="edge" data-from="age" data-to="prenatal">
+    <use href="#age-to-prenatal" class="gap"/>
+    <use href="#age-to-prenatal" class="context"/>
+  </g>
+  <g class="edge" data-from="age" data-to="education">
+    <use href="#age-to-education" class="gap"/>
+    <use href="#age-to-education" class="context"/>
+  </g>
+  <g class="edge" data-from="age" data-to="married">
+    <use href="#age-to-married" class="gap"/>
+    <use href="#age-to-married" class="context"/>
+  </g>
+  <g class="edge" data-from="age" data-to="alcohol">
+    <use href="#age-to-alcohol" class="gap"/>
+    <use href="#age-to-alcohol" class="context"/>
+  </g>
+  <g class="edge" data-from="race" data-to="education">
+    <use href="#race-to-education" class="gap"/>
+    <use href="#race-to-education" class="context"/>
+  </g>
+  <g class="edge" data-from="race" data-to="married">
+    <use href="#race-to-married" class="gap"/>
+    <use href="#race-to-married" class="context"/>
+  </g>
+  <g class="edge" data-from="race" data-to="alcohol">
+    <use href="#race-to-alcohol" class="gap"/>
+    <use href="#race-to-alcohol" class="context"/>
+  </g>
+  <g class="edge" data-from="education" data-to="married">
+    <use href="#education-to-married" class="gap"/>
+    <use href="#education-to-married" class="context"/>
+  </g>
+  <g class="edge" data-from="education" data-to="alcohol">
+    <use href="#education-to-alcohol" class="gap"/>
+    <use href="#education-to-alcohol" class="context"/>
+  </g>
+  <g class="edge" data-from="married" data-to="prenatal">
+    <use href="#married-to-prenatal" class="gap"/>
+    <use href="#married-to-prenatal" class="context"/>
+  </g>
+  <g class="edge" data-from="age" data-to="smoking">
+    <use href="#age-to-smoking" class="gap"/>
+    <use href="#age-to-smoking" class="fan"/>
+  </g>
+  <g class="edge" data-from="race" data-to="smoking">
+    <use href="#race-to-smoking" class="gap"/>
+    <use href="#race-to-smoking" class="fan"/>
+  </g>
+  <g class="edge" data-from="education" data-to="smoking">
+    <use href="#education-to-smoking" class="gap"/>
+    <use href="#education-to-smoking" class="fan"/>
+  </g>
+  <g class="edge" data-from="married" data-to="smoking">
+    <use href="#married-to-smoking" class="gap"/>
+    <use href="#married-to-smoking" class="fan"/>
+  </g>
+  <g class="edge" data-from="alcohol" data-to="smoking">
+    <use href="#alcohol-to-smoking" class="gap"/>
+    <use href="#alcohol-to-smoking" class="fan"/>
+  </g>
+  <g class="edge" data-from="age" data-to="weight">
+    <use href="#age-to-weight" class="gap"/>
+    <use href="#age-to-weight" class="fan"/>
+  </g>
+  <g class="edge" data-from="race" data-to="weight">
+    <use href="#race-to-weight" class="gap"/>
+    <use href="#race-to-weight" class="fan"/>
+  </g>
+  <g class="edge" data-from="education" data-to="weight">
+    <use href="#education-to-weight" class="gap"/>
+    <use href="#education-to-weight" class="fan"/>
+  </g>
+  <g class="edge" data-from="married" data-to="weight">
+    <use href="#married-to-weight" class="gap"/>
+    <use href="#married-to-weight" class="fan"/>
+  </g>
+  <g class="edge" data-from="alcohol" data-to="weight">
+    <use href="#alcohol-to-weight" class="gap"/>
+    <use href="#alcohol-to-weight" class="fan"/>
+  </g>
+  <g class="edge" data-from="smoking" data-to="prenatal">
+    <use href="#smoking-to-prenatal" class="gap"/>
+    <use href="#smoking-to-prenatal" class="pathway"/>
+  </g>
+  <g class="edge" data-from="prenatal" data-to="weight">
+    <use href="#prenatal-to-weight" class="gap"/>
+    <use href="#prenatal-to-weight" class="pathway"/>
+  </g>
+  <g class="edge" data-from="smoking" data-to="weight">
+    <use href="#smoking-to-weight" class="gap"/>
+    <use href="#smoking-to-weight" class="main"/>
+  </g>
+  <text x="533" y="25" class="group-label">Measured background factors</text>
+  <g class="node factor" data-variable="age" transform="translate(443 43)">
+    <rect width="180" height="46" rx="7"/>
+    <text x="90" y="30" class="name">Maternal age</text>
+  </g>
+  <g class="node factor" data-variable="race" transform="translate(443 120)">
+    <rect width="180" height="46" rx="7"/>
+    <text x="90" y="30" class="name">Race</text>
+  </g>
+  <g class="node factor" data-variable="education" transform="translate(443 197)">
+    <rect width="180" height="46" rx="7"/>
+    <text x="90" y="30" class="name">Education</text>
+  </g>
+  <g class="node factor" data-variable="married" transform="translate(443 318)">
+    <rect width="180" height="46" rx="7"/>
+    <text x="90" y="30" class="name">Marital status</text>
+  </g>
+  <g class="node factor" data-variable="alcohol" transform="translate(443 395)">
+    <rect width="180" height="46" rx="7"/>
+    <text x="90" y="30" class="name">Alcohol use</text>
+  </g>
+  <g class="node key" data-variable="smoking" transform="translate(36 226)">
+    <rect width="166" height="110" rx="7"/>
+    <text x="83" y="51" class="name">Smoking</text>
+    <text x="83" y="75" class="role">Exposure</text>
+  </g>
+  <g class="node mediator" data-variable="prenatal" transform="translate(443 525)">
+    <rect width="180" height="46" rx="7"/>
+    <text x="90" y="30" class="name">Prenatal care</text>
+  </g>
+  <g class="node key" data-variable="weight" transform="translate(907 226)">
+    <rect width="170" height="110" rx="7"/>
+    <text x="85" y="51" class="name">Birth weight</text>
+    <text x="85" y="75" class="role">Outcome</text>
+  </g>
+</svg>

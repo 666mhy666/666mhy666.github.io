@@ -1,0 +1,28 @@
+digraph BirthWeight {
+    graph [rankdir=LR, bgcolor="transparent", pad=0.13, nodesep=0.36,
+           ranksep=0.60, splines=true, outputorder=edgesfirst]
+    node [shape=box, style="rounded,filled", fontname="Arial", fontsize=14,
+          margin="0.14,0.09", color="#9cafbc", fillcolor="#eef3f5", fontcolor="#1b2d3a"]
+    edge [color="#7b8d9c", arrowsize=0.68, penwidth=1]
+
+    age [label="Maternal age"]
+    race [label="Race"]
+    education [label="Education"]
+    married [label="Marital status"]
+    alcohol [label="Alcohol use"]
+    smoking [label="Smoking", color="#23597a", fillcolor="#dcecf5", penwidth=1.6]
+    prenatal [label="Prenatal care", fillcolor="#ffffff"]
+    weight [label="Birth weight", color="#23597a", fillcolor="#dcecf5", penwidth=1.6]
+
+    { rank=same; age; race }
+    { rank=same; married; alcohol }
+
+    age -> {education married alcohol smoking prenatal weight}
+    race -> {education married alcohol smoking weight}
+    education -> {married alcohol smoking weight}
+    married -> {smoking prenatal weight}
+    alcohol -> {smoking weight}
+    smoking -> prenatal [color="#436c7f", penwidth=1.5]
+    prenatal -> weight [color="#436c7f", penwidth=1.5]
+    smoking -> weight [color="#23597a", penwidth=2.2]
+}

@@ -1,0 +1,54 @@
+.gcc-study { max-width: 930px; margin: 0 0 42px; }
+
+.gcc-lead {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+  margin-bottom: 22px;
+}
+
+.gcc-lead figure { margin: 0; }
+.gcc-lead h2 { margin-top: 0; }
+
+.gcc-lead img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.gcc-timing {
+  border-top: 1px solid var(--line);
+  padding-top: 4px;
+}
+
+.gcc-model-steps { margin: 0 0 12px; }
+
+.gcc-model-steps > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  gap: 14px;
+  border-top: 1px solid var(--line);
+  padding: 11px 0;
+}
+
+.gcc-model-steps dt { font-weight: 650; margin: 0; }
+.gcc-model-steps dd { margin: 0; }
+
+.gcc-secondary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.gcc-secondary section { background: var(--tint); padding: 12px 16px; }
+.gcc-secondary h3 { margin: 0 0 6px; }
+.gcc-secondary p:last-child { margin-bottom: 0; }
+
+@media (max-width: 720px) {
+  .gcc-lead, .gcc-secondary { grid-template-columns: 1fr; }
+  .gcc-lead { gap: 12px; }
+  .gcc-model-steps > div { grid-template-columns: 1fr; gap: 4px; }
+}

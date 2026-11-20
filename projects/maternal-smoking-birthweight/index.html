@@ -1,1 +1,57 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maternal Smoking and Birth Weight | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a><section class="detail-intro"><p class="eyebrow">Python / statsmodels · Regression adjustment · Robust uncertainty</p><h1>Maternal Smoking and Birth Weight</h1><p class="lede">Compare how the estimated birth weight difference associated with maternal smoking changes after covariate adjustment.</p><p class="meta">4,642 observations · Independent UCLA academic project</p><div class="intro-links"><a href="https://github.com/666mhy666/maternal-smoking-birthweight">View code on GitHub →</a></div></section><div class="detail-layout"><article class="prose"><h2>Question</h2><p>How does the association between maternal smoking and birth weight change after measured covariate adjustment?</p><h2>What I did</h2><p>I fit unadjusted and covariate-adjusted linear regressions on a common complete-case cohort and used HC3 confidence intervals to compare the smoking association before and after adjustment.</p><h2>Main finding</h2><p>The unadjusted difference was −275 g (HC3 95% CI −317 to −234). Adjusting for maternal age, race, education, marital status, and alcohol use gave −233 g (−277 to −189). Both fits use the same 4,642 observations.</p><figure><img src="results/birthweight-associations.png" alt="Unadjusted and adjusted birth-weight associations with HC3 95% confidence intervals." style="width:100%;height:auto"><figcaption class="small">Unadjusted and adjusted birth-weight associations with HC3 95% confidence intervals.</figcaption></figure><h2>Important limitations</h2><p>This is observational evidence. Adjustment does not eliminate unmeasured confounding, exposure misclassification, or selection bias. Intensity categories are treated as categorical; the analysis does not claim a causal dose-response relationship. No formal sensitivity analysis was performed.</p><p class="small">For the portfolio, I kept missing smoking values separate, used the same complete-case cohort for both models, and added HC3 intervals. <a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/REVISION_NOTES.md">Revision details on GitHub →</a></p></article><aside class="aside"><h2>Explore on GitHub</h2><p><a href="https://github.com/666mhy666/maternal-smoking-birthweight"><strong>View code on GitHub →</strong></a></p><ul><li><a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/README.md">README</a></li><li><a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/REPORT.md">Methods and results</a></li><li><a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/DATA_ACCESS.md">Data access</a></li><li><a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/REVISION_NOTES.md">Revision notes</a></li></ul></aside></div></main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September 2026</span></footer></div></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maternal Smoking and Birth Weight | Heyang Ma</title><meta name="description" content="Health data and statistics projects by Heyang Ma"><link rel="stylesheet" href="../../assets/style.css"><link rel="stylesheet" href="../../assets/maternal-smoking-case-study.css"><link rel="icon" href="../../assets/favicon.svg"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="header"><a class="brand" href="../../index.html">Heyang Ma</a><nav class="nav" aria-label="Main navigation"><a href="../../index.html#projects">Projects</a><a href="../../index.html#background">Background</a><a href="../../index.html#contact">Contact</a></nav></header><main id="main"><a class="back" href="../../index.html#projects">← All projects</a>
+<section class="detail-intro">
+  <p class="eyebrow">Maternal health · Observational data · Python</p>
+  <h1>Maternal Smoking and Birth Weight</h1>
+  <p class="lede">Babies of mothers who reported smoking weighed less on average. The estimated gap narrowed after adjustment for maternal characteristics, but it did not disappear.</p>
+  <p class="meta">4,642 observations · Independent UCLA academic project</p>
+  <div class="intro-links">
+    <a href="#adjustment">See the adjustment rationale</a>
+    <a href="#findings">See the estimates</a>
+    <a href="https://github.com/666mhy666/maternal-smoking-birthweight">View the repository</a>
+  </div>
+</section>
+
+<article class="prose smoking-study">
+  <h2>What the groups looked like</h2>
+  <p>I checked that the binary smoking indicator agreed with the recorded intensity categories: code 0 meant no reported smoking, and codes 1–3 indicated increasing levels of reported smoking. The analysis used the same 4,642 complete records throughout (864 with reported smoking and 3,778 without).</p>
+  <p>The original birth weight histograms showed considerable overlap, with the distribution for the smoking group shifted toward lower weights. That group was also younger on average, had fewer years of education, was less often married, and reported alcohol use more often. Those differences gave me a reason to look beyond the raw comparison.</p>
+
+  <h2 id="adjustment">What I adjusted for and why</h2>
+  <div class="smoking-dag">
+    <div>
+      <p>I used a directed acyclic graph (DAG) to map how maternal age, race, education, marital status and alcohol use could be related to both smoking and birth weight. I included those five variables in the adjusted models.</p>
+      <p>I left prenatal care out of the model because the graph allows it to occur along the pathway from smoking to birth weight. Controlling for it could remove part of the association I wanted to examine.</p>
+    </div>
+    <figure>
+      <div class="smoking-dag-view" role="region" aria-label="Coursework causal diagram" tabindex="0">
+        <a href="results/coursework-dag.svg"><img src="results/coursework-dag.svg" alt="Directed acyclic graph showing five measured background factors with paths to both smoking and birth weight, plus paths from smoking directly to birth weight and through prenatal care."></a>
+      </div>
+      <figcaption class="small">Redrawn from the coursework’s written list of arrows. The paths represent assumptions. <span class="smoking-dag-hint">Scroll sideways to follow them. </span><a href="results/coursework-dag.svg">Open full-size diagram</a>.</figcaption>
+    </figure>
+  </div>
+
+  <div class="smoking-overlap">
+    <h3>Where the groups were hard to compare</h3>
+    <p>Every education-by-race group had mothers who reported smoking and mothers who did not. Among those with 16 or more years of education, only 3.9%–4.8% reported smoking across the two recorded race categories. With so few smokers in these groups, adjustment relies more on the model. This check covers two covariates and leaves overlap across all five uncertain.</p>
+  </div>
+
+  <h2 id="findings">How much the estimate changed</h2>
+  <p>The estimated difference moved 42 g closer to zero after adjustment. Both models used the same records, so the change reflects the covariates included in the model.</p>
+  <table class="smoking-models"><caption>Birth weight differences in grams, smoking vs. no smoking</caption><thead><tr><th scope="col">Model</th><th scope="col">Difference</th><th scope="col">HC3 95% CI</th></tr></thead><tbody><tr><th scope="row">Unadjusted</th><td>−275</td><td>−317 to −234</td></tr><tr><th scope="row">Adjusted</th><td>−233</td><td>−277 to −189</td></tr></tbody></table>
+  <h3>Smoking intensity</h3>
+  <p>Using no reported smoking as the reference, adjusted estimates were −158 g, −225 g and −289 g for levels 1, 2 and 3. The association was larger at higher recorded levels. Differences in who smoked at each level, and the coarse exposure categories, limit any causal dose-response interpretation.</p>
+  <figure class="smoking-estimates">
+    <a href="results/birthweight-associations.png"><img src="results/birthweight-associations.png" alt="Estimates and HC3 95% confidence intervals for any reported smoking before and after adjustment, followed by the three adjusted smoking intensity estimates against level zero."></a>
+    <figcaption class="small">Binary smoking comparisons and adjusted differences by intensity. Select the figure to view it full size.</figcaption>
+  </figure>
+
+  <h2>What the models can tell us</h2>
+  <p>The adjusted difference is an observational association. A causal interpretation would require comparable groups after adjustment, meaningful overlap, and a well-defined exposure. Unmeasured factors such as nutrition or stress can still matter, and the smoking codes do not capture timing or duration.</p>
+  <p class="small">The coursework included the DAG, descriptive checks and both regressions. The September 2026 analysis used a common cohort and HC3 intervals. <a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/REVISION_NOTES.md">Revision history</a>.</p>
+</article>
+
+<section class="prose smoking-study smoking-code">
+  <h2>Code and supporting results</h2>
+  <p><a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/analysis.py">Python analysis</a> · <a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/results/balance.csv">Group comparisons</a> · <a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/results/overlap-counts.csv">Overlap counts</a> · <a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/results/estimates.csv">All estimates</a> · <a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/REPORT.md">Methods and assumptions</a> · <a href="https://github.com/666mhy666/maternal-smoking-birthweight/blob/main/DATA_ACCESS.md">Data access</a></p>
+</section>
+</main><footer class="footer"><span>Heyang Ma · Health data &amp; statistics</span><span>Independent UCLA academic work · Revised September–November 2026</span></footer></div></body></html>

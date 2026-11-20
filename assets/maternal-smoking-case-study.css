@@ -1,0 +1,70 @@
+.smoking-study {
+  max-width: 860px;
+  margin: 0 0 40px;
+}
+
+.smoking-dag-view {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.smoking-dag-view a { display: block; }
+.smoking-dag-view img { display: block; width: 100%; height: auto; }
+.smoking-dag-hint { display: none; }
+
+.smoking-dag figure,
+.smoking-estimates {
+  margin: 0 0 20px;
+}
+
+.smoking-estimates img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.smoking-overlap {
+  padding: 14px 18px;
+  border-left: 3px solid var(--blue);
+  background: var(--tint);
+  margin: 0 0 24px;
+}
+
+.smoking-study h3 { margin: 12px 0 6px; }
+.smoking-overlap h3 { margin-top: 0; }
+.smoking-overlap p { margin-bottom: 0; }
+
+.smoking-models {
+  width: 100%;
+  max-width: 600px;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.smoking-models caption {
+  text-align: left;
+  color: var(--muted);
+  padding-bottom: 4px;
+}
+
+.smoking-models thead { background: var(--tint); }
+.smoking-models th,
+.smoking-models td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.smoking-models td { white-space: nowrap; }
+.smoking-code { border-top: 1px solid var(--line); padding-top: 14px; }
+
+@media (max-width: 720px) {
+  .smoking-dag-view a { min-width: 680px; }
+  .smoking-dag-hint { display: inline; }
+  .smoking-models th, .smoking-models td { padding: 6px; }
+}
